@@ -36,7 +36,7 @@ angular.module('linkups2')
 		}
 	};
 
-	/* In case of a page refresh, reinstantiate the variable with the proper headers */
+	/* In case of a page refresh, add the token to the headers variable */
 	if (auth.isLoggedIn()) {		
 		headers.Authorization = 'Bearer ' + auth.getToken();
 	}
@@ -63,6 +63,18 @@ angular.module('linkups2')
 		
 	};
 
+	auth.currentUserRole = function() {
+		
+		if(auth.isLoggedIn()){
+			
+			var token = auth.getToken();
+			var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+			return payload.role;
+		}
+		
+	};
+
 	auth.register = function(user) {
 		return $http({
 			method: 'POST',
@@ -72,7 +84,8 @@ angular.module('linkups2')
 			data: { 
 				username: user.username,
 				fullname: user.fullname, 
-				password: user.password 
+				password: user.password,
+				role: 	  'GUEST',
 			}
 		}).success(function (user) {
 			auth.saveToken(user.token);
@@ -88,7 +101,8 @@ angular.module('linkups2')
 			data: { 
 				username: user.username,
 				fullname: user.fullname, 
-				password: user.password 
+				password: user.password,
+				role: 	  user.role
 			}
 		}).success(function (user) {
 			
@@ -176,6 +190,24 @@ angular.module('linkups2')
 			console.log('error');
 		}); 
 	}
+
+	auth.changeRole = function(user) {
+		return $http({
+			method: 'POST',
+			url: '/api/users/setRole',
+			headers: headers,
+			transformRequest: transformRequestFn,
+			data: { 
+				username: user.username,
+				role: 	  user.role,
+
+			}
+		}).success(function (response) {
+			
+		}).error(function (error){
+			console.log('error');
+		});
+	};
 
 
 	return auth;

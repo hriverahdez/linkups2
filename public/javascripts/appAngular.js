@@ -143,15 +143,14 @@
 
 	.run(function ($rootScope, $state, auth, settingsService) {
 
-
-
 		$rootScope.initialConfig = function() {
 			
 			//CREATING DEFAULT USER
 			var admin = {
-				username: 'admin',
-				fullname: 'DEFAULT USER',
-				password: 'admin'
+				username: 	'admin',
+				password: 	'admin',
+				fullname: 	'DEFAULT USER',
+				role: 		'ADMIN'
 			}
 			auth.checkUserAvailability(admin).then(function(response){
 				if (response.data.available) {
@@ -168,15 +167,19 @@
 
 		$rootScope.initialConfig();
 
+		// UPDATE PROVINCE NAME ON NAVBAR AFTER CHANGE IN SETTINGS
 		$rootScope.$on('settingsSaved', function(event, args){
 			$rootScope.provinceName = args.newProvinceName;
 		});
 
-
+		// TOGGLE OFF THE LOADING OVERLAY
 		$rootScope.loadingOperation = false;
-		$rootScope.showNavbar = false;  //flag to show navbar depending on state
+		// HIDE NAVBAR ON LOGIN SCREEN
+		$rootScope.showNavbar = false;
+		// GET CURRENT USER INFO - TRIGGERED AFTER LOG IN
 		$rootScope.getCurrentUser = function(){
-			$rootScope.currentUser = auth.currentUser();	
+			$rootScope.currentUser 		= auth.currentUser();
+			$rootScope.currentUserRole 	= auth.currentUserRole();
 		};		
 		$rootScope.checkIfUserLoggedIn = function(){ 
 			return auth.isLoggedIn();
@@ -190,7 +193,7 @@
 		        $rootScope.showNavbar = false;		        
 		    } else {		    			    	
 		    	if ($rootScope.checkIfUserLoggedIn()) {
-		    		$rootScope.getCurrentUser();
+		    		$rootScope.getCurrentUser();		    		
 		        	$rootScope.showNavbar = true;
 		    	}
 		    }

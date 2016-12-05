@@ -560,3 +560,7 @@ input:checked + .slider:before {
 .app-logo {
   margin-top: -15px;
 }
+
+.show-filters-caption {
+    margin-left: 40px;
+}

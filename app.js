@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var db = require('./config/db');
+require('./config/jwtSecret');
 
 /* DB connection config */
 var mongoose = require('mongoose');

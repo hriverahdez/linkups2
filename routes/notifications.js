@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var Notification = mongoose.model('Notification');
 
 var jwt = require('express-jwt');
-
-var auth = jwt({secret: 'asusme99b', userProperty: 'payload'});
+var secret = process.env.secret;
+var auth = jwt({secret: secret, userProperty: 'payload'});
 
 /* GET - Reading all */
 router.get('/', function(req, res, next) {
