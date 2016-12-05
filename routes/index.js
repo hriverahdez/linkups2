@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Enlaces.pri v2.0' });
+  res.render('index', { title: '' });
 });
 
 module.exports = router;

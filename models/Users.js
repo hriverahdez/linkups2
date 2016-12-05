@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
+var secret = process.env.secret;
 var jwt = require('jsonwebtoken');
 
 var UserSchema = new mongoose.Schema({
@@ -43,7 +44,7 @@ UserSchema.methods.generateJWT = function() {
         fullname: this.fullname,
         role: this.role,
         exp: parseInt(exp.getTime() / 1000),
-    }, 'asusme99b');
+    }, secret);
 };
 
 mongoose.model('User', UserSchema);

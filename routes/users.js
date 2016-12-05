@@ -7,8 +7,8 @@ var User = mongoose.model('User');
 var passport = require('passport');
 
 var jwt = require('express-jwt');
-
-var auth = jwt({secret: 'asusme99b', userProperty: 'payload'});
+var secret = process.env.secret;
+var auth = jwt({secret: secret, userProperty: 'payload'});
 
 
 /* GET users listing. */

@@ -3,10 +3,10 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var Institution = mongoose.model('Institution');
-
+var secret = process.env.secret;
 var jwt = require('express-jwt');
 
-var auth = jwt({secret: 'asusme99b', userProperty: 'payload'});
+var auth = jwt({secret: secret, userProperty: 'payload'});
 
 /* GET - Reading all */
 router.get('/', auth, function(req, res, next) {
