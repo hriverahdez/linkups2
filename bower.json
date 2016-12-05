@@ -1,0 +1,29 @@
+{
+  "name": "linkups2",
+  "description": "An SPA webapp to manage Institutions Information",
+  "main": "",
+  "authors": [
+    "Helian Rivera Hernandez <hriverahdez2011@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/hriverahdez/linkups2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "^1.5.9",
+    "angular-datatables": "^0.5.5",
+    "angular-modal-service": "^0.10.1",
+    "angular": "^1.5.8",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
+    "angular-resource": "^1.5.8",
+    "angular-ui-router": "^0.3.2",
+    "datatables.net": "^1.10.12"
+  }
+}

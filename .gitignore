@@ -1,0 +1,14 @@
+# Metadata files
+Thumbs.db
+.DS_Store
+# Frontend
+.sass-cache
+public/lib/*
+node_modules
+bower_components
+# Composer
+/vendor
+# Misc.
+data
+error_log
+robots.txt

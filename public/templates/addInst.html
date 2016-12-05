@@ -1,0 +1,88 @@
+<div class="col-md-10 col-md-offset-1">
+    <div class="empty-space-big"></div>
+    <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Datos Instituci&oacute;n</h3>                
+            </div>
+            <div class="panel-body">
+                <form class="form-group add-inst-form" name="inst_form">                    
+                    <fieldset class="pull-left form-column">
+                        <div class="form-group">
+                            <label>Tipo de Instituci&oacute;n *</label>     
+                            <select ng-model="institution.type" class="form-control" ng-options="item.type as item.name for item in instTypes">                                
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>N&uacute;mero de L&iacute;nea *</label>      
+                            <input class="form-control" required ng-model="institution.line_number" placeholder="N&uacute;mero de L&iacute;nea"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre *</label>     
+                            <input class="form-control" required ng-model="institution.name" placeholder="Nombre"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Localidad *</label>        
+                            <input class="form-control" ng-model="institution.location" placeholder="Localidad" required></input>
+                        </div>
+                        <div class="form-group">
+                            <label>WAN *</label>        
+                            <input class="form-control" required ng-model="institution.wan" placeholder="IP/CIDR" ng-pattern="/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([8-9]|[12]\d|3[0]))$/"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>LAN</label>      
+                            <input class="form-control" ng-model="institution.lan" placeholder="IP/CIDR" ng-pattern="/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([8-9]|[12]\d|3[0]))$/"></input>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" ng-model="institution.has_internet">Tiene Internet</label>
+                            </div>
+                        </div>       
+                    </fieldset>
+                    <fieldset class="pull-right form-column">
+                        <div class="form-group">
+                            <label>Velocidad (Kbps) *</label>     
+                            <input class="form-control" ng-model="institution.bandwidth" placeholder="Velocidad" required></input>
+                        </div>
+                        <div class="form-group">            
+                            <label>Estado del enlace *</label>      
+                            <select ng-model="institution.state" class="form-control" 
+                            style="margin-bottom:5px" 
+                            ng-options="item.state as item.state for item in selectionOpts"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="final_destination">Destino Final *</label>      
+                            <select ng-model="institution.final_destination" class="form-control" 
+                            style="margin-bottom:5px" 
+                            ng-options="item.destination as item.destination for item in selectionOpts"></select>            
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de puerta *</label>       
+                            <input class="form-control" ng-model="institution.gate_type" placeholder="Tipo de puerta" required></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Tel&eacute;fono</label>      
+                            <input class="form-control" ng-model="institution.phone_number" placeholder="N&uacute;mero de Tel&eacute;fono"></input>
+                        </div>
+                        <div class="form-group">
+                            <label>&Uacute;ltimo Reporte</label>        
+                            <input class="form-control" ng-model="institution.last_report" placeholder="N&uacute;mero de reporte"></input>
+                        </div>
+                    </fieldset>
+                    
+                    
+                    <span class="pull-right text-muted">Los campos marcados con * son obligatorios
+                    </span>
+                    <div class="clearfix"></div>                    
+                    <label for="Notes">Notas adicionales:</label>
+                    <textarea class="form-control" rows="5" id="notes" ng-model="institution.notes"></textarea>
+                    <div class="empty-space-big"></div>
+                    <div ng-show="isEdit">&Uacute;ltima modificaci&oacute;n: {{institution.last_modification_time | date:'medium'}} por @{{institution.last_modification_by}}</div>
+                    <div align="right">
+                        <input type="button" class="btn btn-primary" ng-disabled="inst_form.$invalid" value="Guardar" ng-click="save(inst_form)"></input>
+                        <input type="button" class="btn btn-default" value="Cancelar" ng-click="cancel()"></input>
+                    </div> 
+                </form>
+                
+            </div> <!-- panel-body -->
+    </div> <!-- panel -->    
+</div>

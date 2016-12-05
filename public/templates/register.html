@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Llene los datos para crear el perfil</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" name="registrationForm">
+                    
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <label>Nombre Completo</label><br>
+                                <input type="text" class="form-control" placeholder="John Smith" name="username"  ng-model="user.fullname" required autofocus/>                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label>Username</label><br>
+                                <input type="text" class="form-control" placeholder="jsmith" name="username"  ng-model="user.username" ng-Change="canCheckAvailability()" required autofocus/>
+
+                            </div>
+                            <div class="col-sm-1">
+                                <span ng-show="userIsAvailable"><i class="user-check-icon fa fa-check"></i></span>
+                                <span ng-hide="userIsNotAvailable"><i class="user-check-icon fa fa-close"></i></span>
+                            </div>
+                            <div class="col-sm-5">
+                                <a ng-disabled="!canCheck" ng-click="checkUserAvailability()" class="btn btn-success push-down">
+                                    <i class="fa fa-refresh fa-fw"></i>Verificar disponibilidad
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label>Contrase&ntilde;a</label>
+                                <input class="form-control" ng-model="user.password" placeholder="Password" name="password" type="password" ng-Change="checkPasswordsMatch()" required>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Repetir contrase&ntilde;a</label>
+                                <input class="form-control" ng-model="user.passconfirm" placeholder="Password" name="password" type="password" ng-Change="checkPasswordsMatch()" required>
+                            </div>
+                        </div>
+                        <div class="empty-space-small"></div>
+                        <div class="alert alert-danger" ng-model="error" ng-if="error">{{error.message}}</div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a ng-if="!create" ng-click="register()" class="btn btn-lg btn-primary btn-block" ng-disabled="registrationForm.$invalid||passwordsDontMatch">Registrarse</a>
+                                <a ng-if="create" ng-click="createUser()" class="btn btn-lg btn-primary btn-block" ng-disabled="registrationForm.$invalid||passwordsDontMatch">Crear</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#/login" ng-if="!create" class="btn btn-lg btn-default btn-block">Cancelar</a>
+                                <a href="#/viewUsers" ng-if="create" class="btn btn-lg btn-default btn-block">Cancelar</a>
+                            </div>
+                        </div>
+                        
+                </form>                
+            </div>
+        </div>
+    </div>
+</div>

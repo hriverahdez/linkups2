@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="linkups2">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Administraci&oacute;n de Instituciones Provinciales</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Angular DataTables CSS -->
+    <link href="/lib/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet">    
+    <link href="/lib/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css" rel="stylesheet">    
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sb-admin-2.css" rel="stylesheet">
+
+   	<!-- Custom Fonts -->
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <div ng-include="'/templates/nav.html'"></div>
+        
+        <div class="container-fluid">
+            
+            <!-- UI ROUTER VIEW CONTAINER -->
+        	<ui-view></ui-view>
+            
+        </div>
+        <!-- /#container -->
+
+
+        
+        <div class="loading-overlay" ng-if="loadingOperation">
+            <div class="loading-box" align="center">
+                <div class="loader"></div>
+                <h4 class="loading-caption">Espere...</h4>
+            </div>
+        </div> 
+        
+    </div>
+    <!-- /#wrapper -->
+    <footer>
+        <div class="footer">
+        	<div class="row">
+                <div class="col-sm-6 pull-left">
+                    <strong>Sistema de Gesti&oacute;n de Enlaces</strong><br>
+                    A SPA using MongoDB, Express, AngularJS and NodeJS - 2016
+                </div>
+                <div class="col-sm-6" align="right">
+                    <strong>Autor: </strong><a href="mailto:hrh@pri.sld.cu">Helian Rivera Hern&aacute;ndez</a> <br>                    
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery DataTables -->
+    <script src="/lib/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Fusion Charts CORE -->
+    <script src="/lib/fusioncharts/fusioncharts.js"></script>
+
+    <!-- Angular Core JavaScript -->
+    <script src="/lib/angular/angular.min.js"></script>
+    <script src="/lib/angular-resource/angular-resource.min.js"></script>
+
+    <!-- Angular DataTables -->
+    <script src="/lib/angular-datatables/dist/angular-datatables.min.js"></script>   
+    <script src="/lib/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
+    
+    <!-- Angular UI Router -->
+	<script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+    <!-- Angular Modal Service -->
+    <script src="/lib/angular-modal-service/dst/angular-modal-service.min.js"></script>    
+
+    <!-- Main Angular App file-->
+    <script src="/javascripts/appAngular.js"></script>
+
+    <!-- Angular Controllers -->
+    <script src="/javascripts/controllers/homeCtrl.js"></script>
+    <script src="/javascripts/controllers/loginCtrl.js"></script>
+    <script src="/javascripts/controllers/notificationCtrl.js"></script>    
+    <script src="/javascripts/controllers/addInstCtrl.js"></script> 
+    <script src="/javascripts/controllers/updateInstCtrl.js"></script> 
+    <script src="/javascripts/controllers/deleteInstCtrl.js"></script> 
+    <script src="/javascripts/controllers/viewUsersCtrl.js"></script>
+    <script src="/javascripts/controllers/profileCtrl.js"></script>
+    <script src="/javascripts/controllers/statsCtrl.js"></script>
+    <script src="/javascripts/controllers/settingsCtrl.js"></script>
+
+    <!-- Angular Services --> 
+    <script src="/javascripts/services/mockService.js"></script>       
+    <script src="/javascripts/services/instData.js"></script>
+    <script src="/javascripts/services/notificationService.js"></script>
+    <script src="/javascripts/services/authenticationService.js"></script>
+    <script src="/javascripts/services/settingsService.js"></script>
+    <script src="/javascripts/services/utilityService.js"></script>
+
+    <!-- Angular Filters -->
+    <script src="/javascripts/filters/filters.js"></script> 
+
+    <!-- Fusion Charts Angular Plugin -->
+    <script src="/javascripts/angular-fusioncharts.min.js"></script>     
+
+    
+
+</body>
+
+</html>
