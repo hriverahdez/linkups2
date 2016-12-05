@@ -67,8 +67,7 @@ angular.module('linkups2')
 			};
 
 
-			$scope.register = function(){								
-				
+			$scope.register = function(){	
 				auth.register($scope.user)
 				.error(function(err){
 					$scope.error = err;
@@ -80,14 +79,14 @@ angular.module('linkups2')
 			};
 			
 
-			$scope.createUser = function(){								
-				
+			$scope.createUser = function(){
+				$scope.user.role = $scope.user.role?'ADMIN':'GUEST';
 				auth.createUser($scope.user)
 				.error(function(err){
 					$scope.error = err;
 				})
 				.then(function(){				
-					$state.go('home', {}, {reload: true});
+					$state.go('viewUsers', {}, {reload: true});
 				});			
 				
 			};

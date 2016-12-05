@@ -12,7 +12,7 @@ var auth = jwt({secret: 'asusme99b', userProperty: 'payload'});
 
 
 /* GET users listing. */
-router.get('/', auth, function(req, res, next) {
+router.get('/', function(req, res, next) {
 	User.find(function(err, user){
 		if(err){ return next(err); }
 
@@ -44,6 +44,8 @@ router.post('/register', function(req, res){
 			user.username = req.body.username;
 
 			user.fullname = req.body.fullname;
+
+			user.role     = req.body.role;
 
 			user.setPassword(req.body.password);
 
@@ -122,7 +124,6 @@ router.post('/check', function(req, res){
 
 	User.findOne({ username: req.body.username }, function(err, user) {
 		if (err) {
-			console.log('?');
 			res.status(404).json(err);
 		}
 		
@@ -134,6 +135,47 @@ router.post('/check', function(req, res){
 		
 	});
 });
+
+router.post('/checkRole', function(req, res){
+
+	User.findOne({ username: req.body.username }, function(err, user) {
+		if (err) {
+			res.status(404).json(err);
+		}
+		
+		if (!user){			
+			res.status(404).json(err);
+		} else {
+			res.json(user.role);
+		}
+		
+	});
+});
+
+router.post('/setRole', function(req, res){
+
+	User.findOne({ username: req.body.username }, function(err, user) {
+		if (err) {
+			res.status(404).json(err);
+		}
+		
+		if (!user){			
+			res.status(404).json(err);
+		} else {
+			user.setRole(req.body.role);
+			user.save(function(err, user){ 
+				if (err) {
+					console.log('There was an error saving to the database: ' + err);
+					res.status(404).json(err);
+					return;
+				}
+			});
+			res.json(user.role);
+		}
+		
+	});
+});
+
 
 /* DELETE - Deleting one */
 router.delete('/:id', auth, function(req, res){

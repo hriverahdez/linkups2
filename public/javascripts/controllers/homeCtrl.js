@@ -7,10 +7,15 @@ angular.module('linkups2')
 	'utilityService',
 	'$filter',
 	'DTOptionsBuilder',
-	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder) {
+	'$rootScope',
+	'$timeout',
+	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder, $rootScope, $timeout) {
 	
 		$scope.typeIconClasses = utilityService.getInstTypeIcons("fa-2x fa-fw");
 		$scope.legendIconClasses = utilityService.getInstTypeIcons("fa-1x");
+
+		$scope.showFilters = false;
+		$scope.role = $rootScope.currentUserRole;
 
 		$scope.selectedPage = 1;
 		$scope.pageSize = 2;
@@ -27,7 +32,6 @@ angular.module('linkups2')
 	    
 	    instData.getAllInstitutions(function(institutions){	    	
 	    	$scope.institutions = institutions;
-	    	//console.log($scope.institutions);
 	    });
 
 	    $scope.viewInst = function(_id){

@@ -6,7 +6,8 @@ var UserSchema = new mongoose.Schema({
     username: {type: String, lowercase: true, unique: true},
     fullname: {type: String, default: "DEFAULT USER"},  
     hash: String,
-    salt: String
+    salt: String,
+    role: {type: String, default: "GUEST"}
 });
 
 
@@ -24,6 +25,10 @@ UserSchema.methods.validPassword = function(password) {
     return this.hash === hash;
 };
 
+UserSchema.methods.setRole = function(role) {
+    this.role = role;
+};
+
 
 UserSchema.methods.generateJWT = function() {
 
@@ -36,6 +41,7 @@ UserSchema.methods.generateJWT = function() {
         _id: this._id,
         username: this.username,
         fullname: this.fullname,
+        role: this.role,
         exp: parseInt(exp.getTime() / 1000),
     }, 'asusme99b');
 };

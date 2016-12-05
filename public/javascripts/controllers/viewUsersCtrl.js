@@ -9,6 +9,7 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 
 		auth.retrieveUserList().then(function(users){
 			$scope.users = users.data;
+			// ASSIGN ADMIN DEFAULT USER TO ANOTHER VARIABLE
 			angular.forEach($scope.users, function(user){
 				if (user.username == "admin"){
 					$scope.admin = user;					
@@ -16,6 +17,12 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 			});
 		});
 
+		$scope.currentUser = $rootScope.currentUser;
+
+		$scope.changeRole = function(user) {
+			user.role = user.role=='GUEST'?'ADMIN':'GUEST';
+			auth.changeRole(user);			
+		};
 
 		$scope.deleteUser = function(_id){
 						
