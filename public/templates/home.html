@@ -30,7 +30,7 @@
                             <tr ng-repeat="inst in institutions | filter:typeQuery">
                                 <td><i class="{{ typeIconClasses[inst.type].iconClass }}"></i></td>
                                 <td>
-                                    <a ng-if="role!='GUEST'" class="srcless-link" ng-click="viewInst(inst._id)">{{inst.name}}</a><span ng-if="role=='GUEST'">{{inst.name}}</span> 
+                                    <a class="srcless-link" ng-click="viewInst(inst._id)">{{inst.name}}</a> 
                                 </td>
                                 <td>{{inst.location}}</td>
                                 <td>{{inst.wan}}</td>
