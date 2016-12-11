@@ -75,6 +75,14 @@ angular.module('linkups2')
 		
 	};
 
+	auth.getCurrentUserHome = function() {
+		if (auth.currentUserRole() == 'ADMIN')
+			return 'home';
+		else 
+			return 'guestHome';
+	};
+	
+
 	auth.register = function(user) {
 		return $http({
 			method: 'POST',

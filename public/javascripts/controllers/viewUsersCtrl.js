@@ -54,7 +54,6 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 
 		$scope.confirm = function(){
 	    	
-	    	console.log(deleteUserId);
 	    	auth.deleteUser(deleteUserId);
 	    	$state.transitionTo('viewUsers', {}, {reload: true});	    		    	
 	    	close({

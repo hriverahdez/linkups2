@@ -14,6 +14,7 @@
 		'$urlRouterProvider',
 		'$httpProvider',
 		function($stateProvider, $urlRouterProvider, $httpProvider) {
+			
 
 			$stateProvider
 				.state('login', {
@@ -22,7 +23,8 @@
 					controller: 'loginCtrl',
 					onEnter: ['$state', 'auth', function($state, auth){
 						if(auth.isLoggedIn()){
-							$state.go('home');
+							// If user is already logged in, redirect to his home
+							$state.go(auth.getCurrentUserHome(), {}, {reload: true});
 						}
 					}]
 				})
@@ -33,10 +35,13 @@
 					controller: 'loginCtrl',
 					onEnter: ['$state', 'auth', 'settingsService', function($state, auth, settingsService){						
 						if(auth.isLoggedIn()){
-							$state.go('home');
+							// If user is already logged in, redirect to his home
+							$state.go(auth.getCurrentUserHome(), {}, {reload: true});
 						}						
 						settingsService.getSettings().then(function(settings){
-							//returns an Array of settings, but since only 1 is ever instantiated
+							// If registration is disabled, send user back to login page
+							// returns an Array of settings, but since only 
+							// 1 setting obj is ever instantiated
 							// we get the first one and retrieve the property
 							var canRegister = settings.data[0].canRegister;
 							if (!canRegister) {
@@ -50,57 +55,75 @@
 					url: '/home',
 					templateUrl: '/templates/home.html',
 					controller: 'homeCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
+						if (!auth.isLoggedIn()){						
+							$state.go('login');
+						}
+						// Do not allow user to enter state if role is GUEST
+						utilityService.secureRouteFrom('GUEST');
+					}]
+				})
+				.state('guestHome', {
+					url: '/guestHome',
+					templateUrl: '/templates/guestHome.html',
+					controller: 'guestHomeCtrl',
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
+						if (!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						// Do not allow user to enter state if role is ADMIN
+						utilityService.secureRouteFrom('ADMIN');
 					}]
 				})
 				.state('addInst', {
 					url: '/addInst',
 					templateUrl: '/templates/addInst.html',
 					controller: 'addInstCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]
 				})
 				.state('updateInst', {
 					url: '/updateInst/:id',
 					templateUrl: '/templates/addInst.html',
 					controller: 'updateInstCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]
 				})
 				.state('showAllNotifications', {
 					url: '/showAllNotifications',
 					templateUrl: '/templates/notifications.html',
 					controller: 'notificationCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]
 				})
 				.state('viewUsers', {
 					url: '/viewUsers',
 					templateUrl: '/templates/viewUsers.html',
 					controller: 'viewUsersCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]
 				})
 				.state('viewProfile', {
 					url: '/viewProfile',
 					templateUrl: '/templates/profile.html',
 					controller: 'profileCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
@@ -110,30 +133,33 @@
 					url: '/createUser',
 					templateUrl: '/templates/register.html',
 					controller: 'loginCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]				
 				})
 				.state('stats', {
 					url: '/stats',
 					templateUrl: '/templates/stats.html',
 					controller: 'statsCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]	
 				})
 				.state('settings', {
 					url: '/settings',
 					templateUrl: '/templates/settings.html',
 					controller: 'settingsCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
 						if(!auth.isLoggedIn()){							
 							$state.go('login');							
 						}
+						utilityService.secureRouteFrom('GUEST');
 					}]
 				})
 				

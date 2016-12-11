@@ -5,7 +5,6 @@ angular.module('linkups2').factory('settingsService', function ($resource, auth,
         'Content-type' : 'application/x-www-form-urlencoded',
     };
 
-    //        'Authorization': 'Bearer '+ auth.getToken()
 
     var transformRequestFn = function(data, headersGetter) {
         var str = [];
