@@ -28,19 +28,39 @@ angular.module('linkups2').controller('guestHomeCtrl', [
 			true: 'fa fa-check',
 			false: 'fa fa-close'
 		};
-		$scope.requests = [
+		
+		$scope.approvedRequests = [
+			{
+				name: 'Centro Generica de fango al pecho',
+				type: 'c_genetica',
+				location:  'Fango al pecho',
+				has_internet: true,
+				bandwidth: '256',
+				approved: true
+			},
+			{
+				name: 'Hospital Menganito Perez',
+				type: 'hospital',
+				location:  'San Juan y Martinez',
+				has_internet: false,
+				bandwidth: '256',
+				approved: true
+			}
+		];
+
+		$scope.pendingRequests = [
 			{
 				name: 'Policlinico Fulano de tal',
 				type: 'policlinico',
 				location:  'Pinar del Rio',
 				has_internet: true,
 				bandwidth: '256',
-				approved: true
+				approved: false
 			},
 			{
-				name: 'Policlinico Fulano de tal',
-				type: 'policlinico',
-				location:  'San Juan y Martinez',
+				name: 'Banco de sangre Masinguaso',
+				type: 'b_sangre',
+				location:  'San Luis',
 				has_internet: false,
 				bandwidth: '256',
 				approved: false
