@@ -7,7 +7,7 @@
 				<div class="panel-heading">
     				<div class="row">
     					<div class="col-sm-10">
-    					<h3 class="panel-title">Peticiones pendientes</h3>
+    					<h3 class="panel-title">Mis solicitudes</h3>
     				</div>
     				<div class="col-sm-2 pull-right">
     					<a class="btn btn-success btn-xs"> <i class="fa fa-plus-circle fa-fw"></i> Solicitar Instituci&oacute;n</a>
@@ -15,6 +15,29 @@
     				</div>              
 				</div>
 				<div class="panel-body">
+
+					<ul class="nav nav-tabs">
+                        <li ng-class="pendingClass"><a class="srcless-link" ng-click="setActiveTab('pending')">Pendientes</a>
+                        </li>
+                        <li ng-class="approvedClass"><a class="srcless-link" ng-click="setActiveTab('approved')">Aceptadas</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="">
+                        <div ng-if="activeTab=='pending'">
+                            <h4>Pending Tab</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </div>
+                        <div ng-if="activeTab=='approved'">
+                            <h4>Approved Tab</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </div>                        
+                    </div>
+
+
+
+
 					<div ng-repeat="req in requests" class="alert alert-info">
 						<div class="row">
 							<div class="col-sm-1"><strong>TIPO</strong></div>
