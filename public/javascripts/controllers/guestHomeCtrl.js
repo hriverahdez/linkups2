@@ -35,16 +35,16 @@ angular.module('linkups2').controller('guestHomeCtrl', [
 				type: 'c_genetica',
 				location:  'Fango al pecho',
 				has_internet: true,
-				bandwidth: '256',
-				approved: true
+				status: 'APROBADO',
+				statusIssue: 'SIN PROBLEMAS'
 			},
 			{
 				name: 'Hospital Menganito Perez',
 				type: 'hospital',
 				location:  'San Juan y Martinez',
 				has_internet: false,
-				bandwidth: '256',
-				approved: true
+				status: 'APROBADO',
+				statusIssue: 'SIN PROBLEMAS'
 			}
 		];
 
@@ -54,16 +54,16 @@ angular.module('linkups2').controller('guestHomeCtrl', [
 				type: 'policlinico',
 				location:  'Pinar del Rio',
 				has_internet: true,
-				bandwidth: '256',
-				approved: false
+				status: 'EN ESPERA',
+				statusIssue: 'En espera de revisión por parte del Administrador'
 			},
 			{
 				name: 'Banco de sangre Masinguaso',
 				type: 'b_sangre',
 				location:  'San Luis',
 				has_internet: false,
-				bandwidth: '256',
-				approved: false
+				status: 'PROBLEMA',
+				statusIssue: 'Su solicitud no puede ser atendida porque ya existe una institución en esa localidad con ese nombre'
 			}
 		];
 	}
