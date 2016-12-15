@@ -5,7 +5,15 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-    				<h3 class="panel-title">Pools de IP de {{provinceName}}</h3>                
+					<div class="row">
+	    				<div class="col-sm-10">
+	    					<h3 class="panel-title">Pools de IP de {{provinceName}}</h3>
+	    				</div>
+	    				<div class="col-sm-2 pull-right">
+	    					<a class="btn btn-danger btn-xs" ng-disabled="noSubnets" ng-click="deleteAllSubnets()"><i class="fa fa-trash fa-fw"></i> Eliminar Todas</a>
+	    				</div>  
+    				</div>
+    				
 				</div>
 				<div class="panel-body">
 					
@@ -30,8 +38,8 @@
 								<div ng-repeat="net in subnets" class="col-sm-6 col-md-4 col-lg-3">
 									<div class="ip-block">
 										<i class="{{ipSubnetIcons[net.available]}}"></i>
-										<strong>{{net.subnet}}/{{net.cidr}}</strong>
-										<i class="fa fa-trash pull-right"></i>
+										<strong>{{net.subnet}}/{{net.mask}}</strong>
+										<a class="srcless-link" ng-click="deleteSubnet(net._id)"><i class="fa fa-trash pull-right"></i></a>
 										<i class="fa fa-edit pull-right"> | </i>
 									</div>
 								</div> 

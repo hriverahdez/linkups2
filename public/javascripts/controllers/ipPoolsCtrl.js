@@ -2,7 +2,9 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	'$scope',
 	'ipMgmtService',
 	'settingsService',
-	function($scope, ipMgmtService, settingsService) {
+	'$state',
+	'ModalService',
+	function($scope, ipMgmtService, settingsService, $state, ModalService) {
 
 		// GETTING PROVINCE NAME FROM SETTINGS
 		settingsService.getSettings().then(function(setting){
@@ -34,165 +36,99 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 				$scope.addOneSubnetTabClass   = "";
 				$scope.addSubnetRangeTabClass = "active";
 			}
-		};
+		};		
 		// END TABS CONTROL
 
-		$scope.subnets = [];
+		$scope.ipSubnetIcons = {
+			true: "fa fa-square-o fa-fw",
+			false: "fa fa-check-square fa-fw"
+		}
+		$scope.noSubnets = true;
+
+		ipMgmtService.getAllSubnets().$promise.then(function(data){			
+			$scope.subnets = data;
+			console.log(data.length);
+			if (data.length != 0)
+				$scope.noSubnets = false;
+			else
+				$scope.noSubnets = true;
+		});
 
 		$scope.addRange = function(range) {
-
 			if (ipMgmtService.rangeIsValid(range.firstSubnet, range.lastSubnet, range.CIDR)) {
-				$scope.subnetsUnformatted = ipMgmtService.getSubnetsInRange(range.firstSubnet, range.lastSubnet, range.CIDR);
-				angular.forEach($scope.subnetsUnformatted, function(item) {
-					$scope.subnets.push({
-						subnet: item,
-						cidr: range.CIDR,
-						available: true,
+				ipMgmtService.addSubnetRange(range.firstSubnet, range.lastSubnet, range.CIDR)
+					.$promise.then(function(){
+						$scope.subnets = ipMgmtService.getAllSubnets();
 					});
-				})
 			}
 		};
 
-		
-		
-		$scope.subnets = [ 
-						{
-							subnet: "172.16.0.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.2.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.4.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.6.0", 
-							cidr: '29',
-							available: false,
-						},
-						{
-							subnet: "172.16.8.0", 
-							cidr: '29',
-							available: false,
-						},
-						{
-							subnet: "172.16.10.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.12.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.14.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.16.0", 
-							cidr: '29',
-							available: false,
-						},
-						{
-							subnet: "172.16.18.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.20.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.22.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.24.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.26.0", 
-							cidr: '29',
-							available: false,
-						},
-						{
-							subnet: "172.16.28.0", 
-							cidr: '29',
-							available: false,
-						},
-						{
-							subnet: "172.16.30.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.32.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.34.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.36.0", 
-							cidr: '29',
-							available: false,
-						},
-						{
-							subnet: "172.16.38.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.40.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.42.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.44.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.46.0", 
-							cidr: '29',
-							available: true,
-						},
-						{
-							subnet: "172.16.48.0", 
-							cidr: '29',
-							available: false,
-						}
-					];
 
-					$scope.ipSubnetIcons = {
-						true: "fa fa-square-o fa-fw",
-						false: "fa fa-check-square fa-fw"
-					}
-		
+		$scope.deleteSubnet = function(_id){
+						
+	    	ModalService.showModal({
+			    templateUrl: '/templates/confirmDeleteModal.html',
+			    controller: 'confirmDeleteSubnetsModalCtrl',
+			    inputs: {
+			    	deleteSubnetId: _id
+			    }
+			    
+			}).then(function(modal) {
+            	modal.element.modal();
+            	
+            	//modal.close();
+            });
+
+	    };
+
+	    $scope.deleteAllSubnets = function() {
+	    	ModalService.showModal({
+			    templateUrl: '/templates/confirmDeleteModal.html',
+			    controller: 'confirmDeleteSubnetsModalCtrl',
+			    inputs: {
+			    	deleteSubnetId: "ALL"
+			    }
+			    
+			}).then(function(modal) {
+            	modal.element.modal();
+            	
+            	//modal.close();
+            });
+	    }
 
 
-		
-		
-		
+	}
+])
+.controller('confirmDeleteSubnetsModalCtrl', [
+	'$scope',
+	'deleteSubnetId',
+	'ipMgmtService', 
+	'$state',
+	function($scope, deleteSubnetId, ipMgmtService, $state){
 
+		$scope.confirm = function(){
+	    	
+	    	if (deleteSubnetId != "ALL") {
+	    		ipMgmtService.deleteSubnet(deleteSubnetId);
+	    	}
+	    	else if (deleteSubnetId == "ALL") {
+	    		ipMgmtService.deleteAllSubnets();
+	    	}
+	    	//$state.transitionTo('viewUsers', {}, {reload: true});	    		    	
+	    	close({
+                
+            }, 500);
+	    };
+
+	    $scope.cancel = function() {
+
+            //  Manually hide the modal.
+            $element.modal('hide');
+
+            //  Now call close, returning control to the caller.
+            close({
+        
+            }, 500); // close, but give 500ms for bootstrap to animate
+    	};
 	}
 ]);

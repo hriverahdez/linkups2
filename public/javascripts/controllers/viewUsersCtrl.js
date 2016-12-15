@@ -28,7 +28,7 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 						
 	    	ModalService.showModal({
 			    templateUrl: '/templates/confirmDeleteModal.html',
-			    controller: 'confirmModalCtrl',
+			    controller: 'confirmDeleteUserModalCtrl',
 			    inputs: {
 			    	deleteUserId: _id
 			    }
@@ -45,7 +45,7 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 		
 	}
 ])
-.controller('confirmModalCtrl', [
+.controller('confirmDeleteUserModalCtrl', [
 	'$scope',
 	'deleteUserId',
 	'auth', 

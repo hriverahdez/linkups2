@@ -1,12 +1,71 @@
 angular.module('linkups2').factory('ipMgmtService', [
-	function () {
+	'$resource',
+	'$http',
+	'$httpParamSerializerJQLike',
+	'auth',
+	function ($resource, $http, $httpParamSerializerJQLike, auth) {
+
+		var baseUrl = '/api/ipPools/:id';
+
+		var headers = {
+	        'Content-type' : 'application/x-www-form-urlencoded',
+	        'Authorization': 'Bearer '+ auth.getToken()
+	    };
+
+	    var transformRequestFn = function(data, headersGetter) {
+	        var str = [];
+	        for(var d in data)
+	            str.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+	        return str.join("&");
+	    };
+
+	    var actions = {
+	        getAllSubnets: {
+	            method: 'GET',
+	            isArray: true,
+	            headers: headers
+	        },
+	        getById: {
+	            method: 'GET',
+	            headers: headers            
+	        },
+	        saveOneSubnet: {
+	            method: 'POST',
+	            headers: headers,
+	            transformRequest: transformRequestFn,
+	        },
+	        saveBulk: {
+	            method: 'POST',
+	            isArray: true,
+	            headers: headers,
+	            transformRequest: $httpParamSerializerJQLike
+	        },
+	        updateSubnet: {
+	            method: 'PUT',
+	            isArray: false,
+	            headers: headers,
+	            transformRequest: transformRequestFn,
+	        },
+	        deleteSubnet: {
+	            method: 'DELETE',
+	            headers: headers
+	        },	        
+	    };
+
+	    var IPResource = $resource(baseUrl, { id: '@_id' }, actions);
+
+
+	    /**********************************************************/
+	    /***                IP CALCULATIONS                     ***/
+	    /**********************************************************/
+
 		var ipMgmtService = {};
 
 		/*	
 			Get amount of octects in address that identify subnets. 
 			Example: A /29 subnet mask is 255.255.255.248 and the method result is 3
 		*/
-		ipMgmtService.getAmountOfFullOctets = function(CIDR) {
+		ipMgmtService.getNetworkOctets = function(CIDR) {
 			return Math.floor(CIDR / 8);
 		}
 
@@ -41,7 +100,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 		*/
 		ipMgmtService.obtainNetmask = function(CIDR) {
 
-			var amountOfFullOctets 	= ipMgmtService.getAmountOfFullOctets(CIDR);
+			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
 			var borrowedBits 		= ipMgmtService.getBorrowedBits(CIDR);
 
 			var netmask = "";
@@ -75,7 +134,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 		*/
 		ipMgmtService.getAmountOfSubnetsInRange = function(firstSubnet, lastSubnet, CIDR) {
 			
-			var amountOfFullOctets 	= ipMgmtService.getAmountOfFullOctets(CIDR);
+			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
 			var firstSubnetOctets 	= firstSubnet.split('.');
 			var lastSubnetOctets 	= lastSubnet.split('.');
 
@@ -100,7 +159,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 		*/
 		ipMgmtService.getSubnetsInRange = function(firstSubnet, lastSubnet, CIDR) {
 
-			var amountOfFullOctets 	= ipMgmtService.getAmountOfFullOctets(CIDR);
+			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
 			var borrowedBits 		= ipMgmtService.getBorrowedBits(CIDR);
 			var firstSubnetOctets 	= firstSubnet.split('.');
 			var lastSubnetOctets 	= lastSubnet.split('.');
@@ -122,12 +181,14 @@ angular.module('linkups2').factory('ipMgmtService', [
 
 		};
 
+		/* 
+			Checks whether a given ip range is valid by comparing octets
+		*/
 		ipMgmtService.rangeIsValid = function(firstSubnet, lastSubnet, CIDR) {
 
 			var firstSubnetOctets 	= firstSubnet.split('.');
 			var lastSubnetOctets 	= lastSubnet.split('.');
-			var amountOfFullOctets 	= ipMgmtService.getAmountOfFullOctets(CIDR);
-
+			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
 
 			var valid = true;
 			for (var i = 0; i < amountOfFullOctets; i++) {
@@ -136,11 +197,50 @@ angular.module('linkups2').factory('ipMgmtService', [
 					break;
 				}
 			}
-
 			return valid;
 		};
 
+		/************************************************/
+		/*	               DATA ACCESS                  */
+		/************************************************/
 
+		ipMgmtService.getAllSubnets = function() {
+			return IPResource.getAllSubnets();
+		};
+
+		ipMgmtService.addSubnetRange = function(firstSubnet, lastSubnet, CIDR) {
+			
+			var subnetsUnformattedArray = ipMgmtService.getSubnetsInRange(firstSubnet, lastSubnet, CIDR);
+			var subnetsArray = {};
+
+			
+			for (var i = 0; i < subnetsUnformattedArray.length; i++) {	
+				subnetsArray[i] = {
+					subnet: 	subnetsUnformattedArray[i],
+					mask: 		CIDR,
+					available: 	true,
+				}
+			}
+			subnetsArray.length = subnetsUnformattedArray.length;
+			
+			return IPResource.saveBulk(subnetsArray);
+		}
+
+		ipMgmtService.deleteSubnet = function(_id) {
+			return IPResource.deleteSubnet({id: _id});
+		};
+
+		ipMgmtService.deleteAllSubnets = function() {
+			return $http({
+				method: 'POST',
+				url: '/api/ipPools/deleteAll',
+				headers: headers,				
+			}).success(function (response) {
+				
+			}).error(function (error){
+				console.log('error');
+			});
+		}
 
 		return ipMgmtService;
 	}

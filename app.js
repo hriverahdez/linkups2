@@ -18,17 +18,19 @@ var app = express();
 require('./models/Users');
 require('./models/Institutions');
 require('./models/Notifications');
+require('./models/IpPools');
 require('./models/Settings');
 
 /* requiring passport */
 require('./config/passport');
 
 /*  route declaration */
-var index = require('./routes/index');
-var users = require('./routes/users');
-var institutions = require('./routes/institutions');
+var index         = require('./routes/index');
+var users         = require('./routes/users');
+var institutions  = require('./routes/institutions');
 var notifications = require('./routes/notifications');
-var settings = require('./routes/settings');
+var ipPools       = require('./routes/ipPools');
+var settings      = require('./routes/settings');
 
 
 /* CONNECTING TO THE DB */
@@ -58,6 +60,7 @@ app.use('/', index);
 app.use('/api/institutions', institutions);
 app.use('/api/users', users);
 app.use('/api/notifications', notifications);
+app.use('/api/ipPools', ipPools);
 app.use('/api/settings', settings);
 
 // catch 404 and forward to error handler
