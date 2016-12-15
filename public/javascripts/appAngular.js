@@ -62,19 +62,7 @@
 						// Do not allow user to enter state if role is GUEST
 						utilityService.secureRouteFrom('GUEST');
 					}]
-				})
-				.state('guestHome', {
-					url: '/guestHome',
-					templateUrl: '/templates/guestHome.html',
-					controller: 'guestHomeCtrl',
-					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
-						if (!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						// Do not allow user to enter state if role is ADMIN
-						utilityService.secureRouteFrom('ADMIN');
-					}]
-				})
+				})				
 				.state('addInst', {
 					url: '/addInst',
 					templateUrl: '/templates/addInst.html',
@@ -160,6 +148,26 @@
 							$state.go('login');							
 						}
 						utilityService.secureRouteFrom('GUEST');
+					}]
+				})
+				.state('ipPools', {
+					url: '/ipPools',
+					templateUrl: '/templates/ipPools.html',
+					controller: 'ipPoolsCtrl'
+				})
+
+
+
+				.state('guestHome', {
+					url: '/guestHome',
+					templateUrl: '/templates/guestHome.html',
+					controller: 'guestHomeCtrl',
+					onEnter: ['$state', 'auth', 'utilityService', function($state, auth, utilityService){
+						if (!auth.isLoggedIn()){							
+							$state.go('login');							
+						}
+						// Do not allow user to enter state if role is ADMIN
+						utilityService.secureRouteFrom('ADMIN');
 					}]
 				})
 				

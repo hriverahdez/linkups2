@@ -603,3 +603,11 @@ input:checked + .slider:before {
 .my-tooltip:hover .tooltiptext {
     visibility: visible;
 }
+
+.ip-block {
+    padding: 5px 10px;
+    border: 1px solid darkgray;
+    border-radius: 3px;
+    margin-bottom: 3px;
+    background: #d9edf7;
+}
