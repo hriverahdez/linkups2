@@ -214,7 +214,6 @@ angular.module('linkups2')
 			data: { 
 				username: user.username,
 				role: 	  user.role,
-
 			}
 		}).success(function (response) {
 			

@@ -247,7 +247,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 
 		ipMgmtService.deleteAllSubnets = function() {
 			return $http({
-				method: 'POST',
+				method: 'DELETE',
 				url: '/api/ipPools/deleteAll',
 				headers: headers,				
 			}).success(function (response) {
@@ -256,6 +256,54 @@ angular.module('linkups2').factory('ipMgmtService', [
 				console.log('error');
 			});
 		}
+
+		ipMgmtService.getAllAvailableSubnets = function() {
+			return $http({
+				method: 'GET',
+				url: '/api/ipPools/getAvailable',
+				headers: headers,
+				transformRequest: transformRequestFn,
+				isArray: true
+			}).success(function (response) {
+				
+			}).error(function (error){
+				console.log('error');
+			});
+		};
+
+		ipMgmtService.setUnavailable = function(subnet) {
+			return $http({
+				method: 'POST',
+				url: '/api/ipPools/setAvailability',
+				headers: headers,
+				data: {
+					_id: 		subnet._id,
+					available: 	false
+				},
+				transformRequest: $httpParamSerializerJQLike,
+			}).success(function (response) {
+				
+			}).error(function (error){
+				console.log('error');
+			});
+		};
+
+		ipMgmtService.setAvailable = function(subnet) {
+			return $http({
+				method: 'POST',
+				url: '/api/ipPools/setAvailability',
+				headers: headers,
+				data: {
+					_id: 		subnet._id,
+					available: 	true
+				},
+				transformRequest: $httpParamSerializerJQLike,
+			}).success(function (response) {
+				
+			}).error(function (error){
+				console.log('error');
+			});
+		};
 
 		return ipMgmtService;
 	}

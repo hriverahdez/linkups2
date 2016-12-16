@@ -25,13 +25,9 @@
                             <input class="form-control" ng-model="institution.location" placeholder="Localidad" required></input>
                         </div>
                         <div class="form-group">
-                            <label>WAN *</label>        
-                            <input class="form-control" ng-model="institution.wan" placeholder="IP/CIDR" ng-pattern="ipMaskRegExp" required></input>
-                        </div>
-                        <div class="form-group">
-                            <label>LAN</label>      
-                            <input class="form-control" ng-model="institution.lan" placeholder="IP/CIDR" ng-pattern="ipMaskRegExp"></input>
-                        </div>
+                            <label>Velocidad (Kbps) *</label>     
+                            <input class="form-control" ng-model="institution.bandwidth" placeholder="Velocidad" required></input>
+                        </div>           
                         <div class="form-group">
                             <div class="checkbox">
                                 <label><input type="checkbox" ng-model="institution.has_internet">Tiene Internet</label>
@@ -39,10 +35,6 @@
                         </div>       
                     </fieldset>
                     <fieldset class="pull-right form-column">
-                        <div class="form-group">
-                            <label>Velocidad (Kbps) *</label>     
-                            <input class="form-control" ng-model="institution.bandwidth" placeholder="Velocidad" required></input>
-                        </div>
                         <div class="form-group">            
                             <label>Estado del enlace *</label>      
                             <select ng-model="institution.state" class="form-control" 
@@ -68,11 +60,89 @@
                             <input class="form-control" ng-model="institution.last_report" placeholder="N&uacute;mero de reporte"></input>
                         </div>
                     </fieldset>
-                    
-                    
-                    <span class="pull-right text-muted">Los campos marcados con * son obligatorios
+                    <span class="pull-right text-muted">
+                        Los campos marcados con * son obligatorios
                     </span>
                     <div class="clearfix"></div>                    
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>WAN *</label>        
+                                            <input type="text" class="form-control" ng-model="institution.wan" placeholder="IP/CIDR" ng-disabled="true" required></input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 push-down">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <button class="btn btn-block btn-success" 
+                                                    ng-click="autoWan()">
+                                                    <i class="fa fa-refresh"></i>
+                                                    Auto Asignar
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-4 text-right">
+                                                <button class="btn btn-block  btn-success" ng-click="selectWan()">
+                                                    <i class="fa fa-list"></i>
+                                                    Seleccionar                  
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-4 text-right">
+                                                <button class="btn btn-block btn-default" 
+                                                ng-click="clearWan()">
+                                                    <i class="fa fa-close"></i>
+                                                    Limpiar                  
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    </div>
+                            </div> <!--center column -->
+                        </div> <!-- WAN ROW -->
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>LAN</label>      
+                                    <input class="form-control" ng-model="institution.lan" placeholder="IP/CIDR" ng-disabled="true"></input>
+                                </div>
+                            </div>
+                            <div class="col-md-6 push-down">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-block btn-warning" ng-click="autoWan()">
+                                            <i class="fa fa-refresh"></i>
+                                            Auto asignar
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <button class="btn btn-block btn-warning" ng-click="selectLan()">
+                                            <i class="fa fa-list"></i>
+                                            Seleccionar                  
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <button class="btn btn-block btn-default" ng-click="clearLan()">
+                                            <i class="fa fa-close"></i> 
+                                            Limpiar                 
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- LAN ROW -->
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <div class="alert alert-danger" ng-show="error">
+                                    {{error}}
+                                    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- WELL -->
+
                     <label for="Notes">Notas adicionales:</label>
                     <textarea class="form-control" rows="5" id="notes" ng-model="institution.notes"></textarea>
                     <div class="empty-space-big"></div>

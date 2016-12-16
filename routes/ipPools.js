@@ -18,6 +18,17 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+/* GET - all available subnets */
+router.get('/getAvailable', function(req, res, next) {
+
+	IpPool.find({available: true}, function(err, pool){
+		if(err){ return next(err); }
+
+		res.json(pool);
+	});
+});
+
+
 /* POST - Creating one */
 router.post('/', auth, function(req, res, next) {	
 
@@ -47,11 +58,52 @@ router.post('/', auth, function(req, res, next) {
 
 });
 
+router.post('/setAvailability', function(req, res){
+
+	IpPool.findById({ _id: req.body._id }, function(err, pool) {
+		if (err) {
+			res.status(404).json(err);
+		}
+		
+		if (!pool){			
+			res.status(404).json(err);
+		} else {
+			pool.setAvailability(req.body.available);			
+			pool.save(function(err, pool){ 
+				if (err) {
+					console.log('There was an error saving to the database: ' + err);
+					res.status(404).json(err);
+					return;
+				}
+			});
+			res.json(pool.available);
+		}
+		
+	});
+});
+
 
 /* GET - Reading one */
 router.get('/:id', function(req, res) {
 	
 	IpPool.findById({ _id: req.params.id }, function (err, pool){
+		if(err){ 
+			res.status(404).json(err);
+			return; 
+		}
+		if (!pool) { 
+			res.status(404).json({message: 'can\'t find IpPool'});
+			return;
+		}		
+		res.json(pool);	
+	});
+	
+});
+
+/* GET - Reading one */
+router.get('/getByIP/:ip', function(req, res) {
+	
+	IpPool.findOne({ ip: req.params.ip }, function (err, pool){
 		if(err){ 
 			res.status(404).json(err);
 			return; 
@@ -103,7 +155,7 @@ router.delete('/:id', auth, function(req, res){
 
 });
 
-router.post('/deleteAll', auth, function(req, res){
+router.delete('/deleteAll', auth, function(req, res){
 
     IpPool.remove({}, function(err){
         if (err) console.log(err);
