@@ -1,14 +1,14 @@
 var mongoose = require('mongoose');
 
 var IpPoolSchema = new mongoose.Schema({
-	subnet: String,
+	ip: String,
 	mask: 	String,
 	available: { type: Boolean, default: true }
 });
 
 
 IpPoolSchema.methods.updateFields = function(newData) {
-	this.subnet = newData.subnet;
+	this.ip = newData.ip;
 	this.mask 	= newData.mask;
 	this.available = newData.available;
 };

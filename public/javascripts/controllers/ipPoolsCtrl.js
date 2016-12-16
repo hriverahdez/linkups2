@@ -4,15 +4,26 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	'settingsService',
 	'$state',
 	'ModalService',
-	function($scope, ipMgmtService, settingsService, $state, ModalService) {
+	'utilityService',
+	function($scope, ipMgmtService, settingsService, $state, ModalService, utilityService) {
+
+		$scope.range = {
+			mask: "24"
+		};
+		$scope.sortOrder = "ip";
+		$scope.singleSubnet = {
+			fullMask: "X.X.X.X"
+		};
+
+		// ************ SHOW FULL NESTMASK 
+		$scope.fullNetmask = ipMgmtService.obtainNetmask($scope.range.mask);
 
 		// GETTING PROVINCE NAME FROM SETTINGS
 		settingsService.getSettings().then(function(setting){
 			$scope.provinceName = setting.data[0].provinceName;
 		});
 
-
-		// TABS CONTROL
+		// ****************** TABS CONTROL
 		$scope.activeTab = 'list';
 
 		$scope.subnetListTabClass 	  = "active";
@@ -37,32 +48,74 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 				$scope.addSubnetRangeTabClass = "active";
 			}
 		};		
-		// END TABS CONTROL
+		// ******************END TABS CONTROL
 
+		/* ICONS FOR AVAILABILITY IN SUBNET LISTING */
 		$scope.ipSubnetIcons = {
 			true: "fa fa-square-o fa-fw",
 			false: "fa fa-check-square fa-fw"
 		}
+
 		$scope.noSubnets = true;
+		$scope.invalidRange = true;
 
-		ipMgmtService.getAllSubnets().$promise.then(function(data){			
-			$scope.subnets = data;
-			console.log(data.length);
-			if (data.length != 0)
-				$scope.noSubnets = false;
-			else
-				$scope.noSubnets = true;
-		});
+		// REGULAR EXPRESSIONS FOR IP AND IP/CIDR FORMATS 
+		$scope.ipRegExp = utilityService.getIPRegex();
+		$scope.ipMaskRegExp = utilityService.getIPMASKRegex();
 
-		$scope.addRange = function(range) {
-			if (ipMgmtService.rangeIsValid(range.firstSubnet, range.lastSubnet, range.CIDR)) {
-				ipMgmtService.addSubnetRange(range.firstSubnet, range.lastSubnet, range.CIDR)
+		$scope.refreshSubnetList = function() {
+			ipMgmtService.getAllSubnets().$promise.then(function(data){			
+				$scope.subnets = data;				
+				if (data.length != 0)
+					$scope.noSubnets = false;
+				else
+					$scope.noSubnets = true;
+			});
+		};
+
+		$scope.refreshSubnetList();
+
+		$scope.validateRange = function(form) {
+			$scope.fullNetmask = ipMgmtService.obtainNetmask($scope.range.mask);
+			if (form.$valid) {
+				if (ipMgmtService.rangeIsValid($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask)) {
+					$scope.invalidRange = false;
+				}
+				else {
+					$scope.invalidRange = true;	
+				}
+			}
+		};
+
+		$scope.showFullNetMask = function() {
+			if ($scope.singleSubnet.ip) {
+				var subnet = $scope.singleSubnet.ip.split('/');
+				var mask = subnet[1];
+				$scope.singleSubnet.fullMask = ipMgmtService.obtainNetmask(mask);
+			}
+		};
+
+		$scope.addOneSubnet = function() {
+			var subnet = $scope.singleSubnet.ip.split('/');
+			$scope.singleSubnet.ip = subnet[0];
+			$scope.singleSubnet.mask = subnet[1];
+			ipMgmtService.addSingleSubnet($scope.singleSubnet).$promise.then(function(){
+				$scope.refreshSubnetList();
+			});
+		};
+
+		$scope.addRange = function() {
+			if (ipMgmtService.rangeIsValid($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask)) {
+				ipMgmtService.addSubnetRange($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask)
 					.$promise.then(function(){
-						$scope.subnets = ipMgmtService.getAllSubnets();
+						$scope.refreshSubnetList();
 					});
 			}
 		};
 
+		$scope.$on("subnetDeletion", function (event, args) {
+			$scope.refreshSubnetList();
+		});
 
 		$scope.deleteSubnet = function(_id){
 						
@@ -104,15 +157,22 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	'deleteSubnetId',
 	'ipMgmtService', 
 	'$state',
-	function($scope, deleteSubnetId, ipMgmtService, $state){
+	'$rootScope',
+	function($scope, deleteSubnetId, ipMgmtService, $state, $rootScope){
 
 		$scope.confirm = function(){
 	    	
 	    	if (deleteSubnetId != "ALL") {
-	    		ipMgmtService.deleteSubnet(deleteSubnetId);
+	    		ipMgmtService.deleteSubnet(deleteSubnetId).$promise.then(function(){
+	    			$rootScope.$broadcast("subnetDeletion", {						
+					});
+	    		});
 	    	}
 	    	else if (deleteSubnetId == "ALL") {
-	    		ipMgmtService.deleteAllSubnets();
+	    		ipMgmtService.deleteAllSubnets().then(function() {
+	    			$rootScope.$broadcast("subnetDeletion", {						
+					});
+	    		});
 	    	}
 	    	//$state.transitionTo('viewUsers', {}, {reload: true});	    		    	
 	    	close({

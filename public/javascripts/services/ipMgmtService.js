@@ -66,7 +66,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 			Example: A /29 subnet mask is 255.255.255.248 and the method result is 3
 		*/
 		ipMgmtService.getNetworkOctets = function(CIDR) {
-			return Math.floor(CIDR / 8);
+			return Math.floor(parseInt(CIDR) / 8);
 		}
 
 		/* 
@@ -75,7 +75,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 			because 248 means that 5 bits were borrowed (11111000 = 248)
 		*/
 		ipMgmtService.getBorrowedBits = function(CIDR) {
-			return CIDR % 8;
+			return parseInt(CIDR) % 8;
 		};
 
 		/*
@@ -100,11 +100,11 @@ angular.module('linkups2').factory('ipMgmtService', [
 		*/
 		ipMgmtService.obtainNetmask = function(CIDR) {
 
-			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
+			var amountNetworkOctets = ipMgmtService.getNetworkOctets(CIDR);
 			var borrowedBits 		= ipMgmtService.getBorrowedBits(CIDR);
 
 			var netmask = "";
-			for (var i = 0; i < amountOfFullOctets; i++) {
+			for (var i = 0; i < amountNetworkOctets; i++) {
 				netmask += "255.";
 			};
 
@@ -116,9 +116,9 @@ angular.module('linkups2').factory('ipMgmtService', [
 				maxPowerValue--;
 			}
 
-			netmask += ipMgmtService.getHostsOctet().toString();
+			netmask += ipMgmtService.getHostsOctet(borrowedBits).toString();
 
-			switch(amountOfFullOctets) {
+			switch(amountNetworkOctets) {
 				case 1: netmask += ".0.0";
 						break;
 				case 2: netmask += ".0";
@@ -134,7 +134,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 		*/
 		ipMgmtService.getAmountOfSubnetsInRange = function(firstSubnet, lastSubnet, CIDR) {
 			
-			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
+			var amountNetworkOctets 	= ipMgmtService.getNetworkOctets(CIDR);
 			var firstSubnetOctets 	= firstSubnet.split('.');
 			var lastSubnetOctets 	= lastSubnet.split('.');
 
@@ -142,11 +142,11 @@ angular.module('linkups2').factory('ipMgmtService', [
 			var blockSize = 256 - ipMgmtService.getHostsOctet(borrowedBits);
 			var count = 0;
 			var current = 0;
-			var octectToIncrement = parseInt(firstSubnetOctets[amountOfFullOctets]);
+			var octectToIncrement = parseInt(firstSubnetOctets[amountNetworkOctets]);
 			
 			//console.log(octectToIncrement);
 			
-			while (parseInt(lastSubnetOctets[amountOfFullOctets]) >= current) {
+			while (parseInt(lastSubnetOctets[amountNetworkOctets]) >= current) {
 				current += octectToIncrement + blockSize;
 				count++;
 			};
@@ -159,7 +159,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 		*/
 		ipMgmtService.getSubnetsInRange = function(firstSubnet, lastSubnet, CIDR) {
 
-			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
+			var amountNetworkOctets 	= ipMgmtService.getNetworkOctets(CIDR);
 			var borrowedBits 		= ipMgmtService.getBorrowedBits(CIDR);
 			var firstSubnetOctets 	= firstSubnet.split('.');
 			var lastSubnetOctets 	= lastSubnet.split('.');
@@ -171,7 +171,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 			while (amountOfSubnetsInRange != 0) {
 				
 				subnets.push(current);
-				firstSubnetOctets[amountOfFullOctets] = parseInt(firstSubnetOctets[amountOfFullOctets]) + blockSize
+				firstSubnetOctets[amountNetworkOctets] = parseInt(firstSubnetOctets[amountNetworkOctets]) + blockSize
 				current = firstSubnetOctets.join('.');
 				amountOfSubnetsInRange--;
 
@@ -188,11 +188,12 @@ angular.module('linkups2').factory('ipMgmtService', [
 
 			var firstSubnetOctets 	= firstSubnet.split('.');
 			var lastSubnetOctets 	= lastSubnet.split('.');
-			var amountOfFullOctets 	= ipMgmtService.getNetworkOctets(CIDR);
-
+			var amountNetworkOctets = ipMgmtService.getNetworkOctets(CIDR);
 			var valid = true;
-			for (var i = 0; i < amountOfFullOctets; i++) {
-				if (firstSubnetOctets[i] > lastSubnetOctets[i]) {
+
+			for (var i = 0; i < amountNetworkOctets; i++) {
+				
+				if (firstSubnetOctets[i] != lastSubnetOctets[i]) {					
 					valid = false;
 					break;
 				}
@@ -208,6 +209,10 @@ angular.module('linkups2').factory('ipMgmtService', [
 			return IPResource.getAllSubnets();
 		};
 
+		ipMgmtService.addSingleSubnet = function(subnet) {
+			return IPResource.saveOneSubnet(subnet);
+		}
+
 		ipMgmtService.addSubnetRange = function(firstSubnet, lastSubnet, CIDR) {
 			
 			var subnetsUnformattedArray = ipMgmtService.getSubnetsInRange(firstSubnet, lastSubnet, CIDR);
@@ -216,7 +221,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 			
 			for (var i = 0; i < subnetsUnformattedArray.length; i++) {	
 				subnetsArray[i] = {
-					subnet: 	subnetsUnformattedArray[i],
+					ip: 		subnetsUnformattedArray[i],
 					mask: 		CIDR,
 					available: 	true,
 				}

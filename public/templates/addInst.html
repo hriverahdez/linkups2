@@ -26,11 +26,11 @@
                         </div>
                         <div class="form-group">
                             <label>WAN *</label>        
-                            <input class="form-control" required ng-model="institution.wan" placeholder="IP/CIDR" ng-pattern="/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([8-9]|[12]\d|3[0]))$/"></input>
+                            <input class="form-control" ng-model="institution.wan" placeholder="IP/CIDR" ng-pattern="ipMaskRegExp" required></input>
                         </div>
                         <div class="form-group">
                             <label>LAN</label>      
-                            <input class="form-control" ng-model="institution.lan" placeholder="IP/CIDR" ng-pattern="/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([8-9]|[12]\d|3[0]))$/"></input>
+                            <input class="form-control" ng-model="institution.lan" placeholder="IP/CIDR" ng-pattern="ipMaskRegExp"></input>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">

@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* POST - Creating one */
-router.post('/', function(req, res, next) {	
+router.post('/', auth, function(req, res, next) {	
 
 
 	if (req.body.length > 0) {		
@@ -49,7 +49,7 @@ router.post('/', function(req, res, next) {
 
 
 /* GET - Reading one */
-router.get('/:id', function(req, res) {
+router.get('/:id', auth, function(req, res) {
 	
 	IpPool.findById({ _id: req.params.id }, function (err, pool){
 		if(err){ 
@@ -67,7 +67,7 @@ router.get('/:id', function(req, res) {
 
 
 /* PUT - Updating one */
-router.put('/:id', function(req, res){
+router.put('/:id', auth, function(req, res){
     
     IpPool.findById({ _id: req.params.id }, function (err, pool){
 		if(err){ 
@@ -93,7 +93,7 @@ router.put('/:id', function(req, res){
 });
 
 /* DELETE - Deleting one */
-router.delete('/:id', function(req, res){
+router.delete('/:id', auth, function(req, res){
 
     IpPool.remove({ _id: req.params.id }, function(err, ipPool){
         if (err) throw err;
@@ -103,7 +103,7 @@ router.delete('/:id', function(req, res){
 
 });
 
-router.post('/deleteAll', function(req, res){
+router.post('/deleteAll', auth, function(req, res){
 
     IpPool.remove({}, function(err){
         if (err) console.log(err);

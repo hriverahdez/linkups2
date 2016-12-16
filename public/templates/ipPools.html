@@ -17,6 +17,15 @@
 				</div>
 				<div class="panel-body">
 					
+					<div class="row">
+                    	<div class="col-sm-2 col-sm-offset-10">
+                    		<div class="form-group has-feedback">
+                    			<input type="text" ng-model="searchQuery.ip" class="form-control">
+                    			<span class="form-control-feedback glyphicon glyphicon-search"></span>
+                    		</div>
+                    	</div>
+                    </div>
+
 					<ul class="nav nav-tabs">
                         <li ng-class="subnetListTabClass">
                         	<a class="srcless-link" ng-click="setActiveTab('list')">Subnets</a>
@@ -29,16 +38,16 @@
                         </li>
                     </ul>
                     <div class="empty-space-small"></div>
-
+                    
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div ng-if="activeTab=='list'">
 							
 							<div class="row">
-								<div ng-repeat="net in subnets" class="col-sm-6 col-md-4 col-lg-3">
+								<div ng-repeat="net in subnets | orderBy: sortOrder | filter:searchQuery" class="col-sm-6 col-md-4 col-lg-3">
 									<div class="ip-block">
 										<i class="{{ipSubnetIcons[net.available]}}"></i>
-										<strong>{{net.subnet}}/{{net.mask}}</strong>
+										<strong>{{net.ip}}/{{net.mask}}</strong>
 										<a class="srcless-link" ng-click="deleteSubnet(net._id)"><i class="fa fa-trash pull-right"></i></a>
 										<i class="fa fa-edit pull-right"> | </i>
 									</div>
@@ -60,65 +69,78 @@
                         </div>
                         <div ng-if="activeTab=='addOne'">
                             <div class="empty-space-small"></div>
-                            <div class="col-sm-4 col-sm-offset-4">
-                            	<label>Direcci&oacute;n IP</label>
-                            	<input type="text" class="form-control" placeholder="IP/CIDR"> <br>
-                            	<span class="help-block">Tenga en cuenta que no se validar&aacute; si la red se solapa con alguna ya existente</span>
-                            </div>
-                            <div class="col-sm-2 col-sm-offset-5">
-                            	<button class="btn btn-block btn-success">Agregar</button>
-                            </div>
+                            <form name="addOneSubnetForm">
+                            	<div class="col-sm-6 col-sm-offset-3">
+	                            	<div class="row">
+	                            		<div class="col-sm-6">
+	                            			<label>Direcci&oacute;n IP</label>
+	                            			<input type="text" class="form-control" ng-model="singleSubnet.ip" ng-pattern="ipMaskRegExp" placeholder="IP/CIDR" ng-change="showFullNetMask()" required> 
+	                            		</div>
+	                            		<div class="col-sm-6">
+
+	                            			<div class="text-muted singlesubnet-mask"><strong>M&aacute;scara: {{singleSubnet.fullMask}}</strong></div>
+	                            		</div>
+	                            	</div>
+	                            	<span class="help-block">Tenga en cuenta que no se validar&aacute; si la red se solapa con alguna ya existente</span>
+	                            </div>
+	                            <div class="col-sm-2 col-sm-offset-5">
+	                            	<button class="btn btn-block btn-success" ng-click="addOneSubnet()" ng-disabled="addOneSubnetForm.$invalid">Agregar</button>
+	                            </div>
+                            </form>
 
                         </div>
                         <div ng-if="activeTab=='addRange'">
                             
                             <div class="empty-space-small"></div>
-                            <div class="row">
-                            	<div class="col-sm-4 col-sm-offset-1">
-                            		<label>Direcci&oacute;n IP inicial</label>
-	                            	<input type="text" ng-model="range.firstSubnet" class="form-control" placeholder="IP"> <br>
+                            <form name="subnetRangeForm">
+                            	<div class="row">
+	                            	<div class="col-sm-4 col-sm-offset-1">
+	                            		<label>Direcci&oacute;n IP inicial</label>
+		                            	<input type="text" ng-model="range.firstSubnet" class="form-control" placeholder="IP" ng-change="validateRange(subnetRangeForm)" ng-pattern="ipRegExp" required> <br>
+		                            </div>
+		                            <div class="col-sm-4">
+		                            	<label>Direcci&oacute;n IP final</label>
+		                            	<input type="text" ng-model="range.lastSubnet" required class="form-control" placeholder="IP" ng-change="validateRange(subnetRangeForm)" ng-pattern="ipRegExp"> <br>
+		                            </div>
+		                            <div class="col-sm-1">
+		                            	<label>M&aacute;scara</label>
+		                            	<select ng-change="validateRange(subnetRangeForm)" ng-model="range.mask" class="form-control">
+		                            		<option value="8">8</option>
+		                            		<option value="9">9</option>
+		                            		<option value="10">10</option>
+		                            		<option value="11">11</option>
+		                            		<option value="12">12</option>
+		                            		<option value="13">13</option>
+		                            		<option value="14">14</option>
+		                            		<option value="15">15</option>
+		                            		<option value="16">16</option>
+		                            		<option value="17">17</option>
+		                            		<option value="18">18</option>
+		                            		<option value="19">19</option>
+		                            		<option value="20">20</option>
+		                            		<option value="21">21</option>
+		                            		<option value="22">22</option>
+		                            		<option value="23">23</option>
+		                            		<option value="24">24</option>
+		                            		<option value="25">25</option>
+		                            		<option value="26">26</option>
+		                            		<option value="27">27</option>
+		                            		<option value="28">28</option>
+		                            		<option value="29">29</option>
+		                            		<option value="30">30</option>
+		                            	</select>
+		                            	<span class="help-block">{{fullNetmask}}</span>
+		                            </div>
+		                        </div>
+		                        <div class="row">
+		                        	<div class="col-sm-12 text-center">
+		                        		<span class="help-block">El rango se agregar&aacute; teniendo en cuenta la m&aacute;scara, pero no se validar&aacute; si las redes resultantes se solapan con las ya existentes</span>
+		                        	</div>
+		                        </div>
+	                            <div class="col-sm-2 col-sm-offset-5">
+	                            	<button ng-disabled="invalidRange||subnetRangeForm.$invalid" ng-click="addRange(range)" class="btn btn-block btn-success">Agregar</button>
 	                            </div>
-	                            <div class="col-sm-4">
-	                            	<label>Direcci&oacute;n IP final</label>
-	                            	<input type="text" ng-model="range.lastSubnet" class="form-control" placeholder="IP"> <br>
-	                            </div>
-	                            <div class="col-sm-1">
-	                            	<label>M&aacute;scara</label>
-	                            	<select ng-model="range.CIDR" class="form-control">
-	                            		<option>8</option>
-	                            		<option>9</option>
-	                            		<option>10</option>
-	                            		<option>11</option>
-	                            		<option>12</option>
-	                            		<option>13</option>
-	                            		<option>14</option>
-	                            		<option>15</option>
-	                            		<option>16</option>
-	                            		<option>17</option>
-	                            		<option>18</option>
-	                            		<option>19</option>
-	                            		<option>20</option>
-	                            		<option>21</option>
-	                            		<option>22</option>
-	                            		<option>23</option>
-	                            		<option selected>24</option>
-	                            		<option>25</option>
-	                            		<option>26</option>
-	                            		<option>27</option>
-	                            		<option>28</option>
-	                            		<option>29</option>
-	                            		<option>30</option>
-	                            	</select>
-	                            </div>
-	                        </div>
-	                        <div class="row">
-	                        	<div class="col-sm-12 text-center">
-	                        		<span class="help-block">El rango se agregar&aacute; teniendo en cuenta el IP y el CIDR, pero no se garantiza que el subnetting sea correcto si los valores de inicio y fin no lo son.</span>
-	                        	</div>
-	                        </div>
-                            <div class="col-sm-2 col-sm-offset-5">
-                            	<button ng-click="addRange(range)" class="btn btn-block btn-success">Agregar</button>
-                            </div>
+                            </form>
                         </div>
                     </div> <!-- END tab panes -->
                     

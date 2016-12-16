@@ -17,6 +17,9 @@ angular.module('linkups2').controller('addInstCtrl', [
 			type: "NODO"
 		};
 
+		$scope.ipRegExp = utilityService.getIPRegex();
+		$scope.ipMaskRegExp = utilityService.getIPMASKRegex();
+
 		/* OBJ THAT HOLDS POSSIBLE VALUES FOR THE SELECT ELEMENTS */
 		$scope.selectionOpts = [
 			{ 
