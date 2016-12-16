@@ -84,7 +84,6 @@ angular.module('linkups2').factory('notificationService', function($resource, au
 	notificationService.getAllNotifications = function(){
 		var deferred = $q.defer();
 		NResource.getAllNotifications(function(notification){
-			//console.log('notif '+notification);
 			deferred.resolve(notification);
 		},function(error){
 			deferred.reject(error);
