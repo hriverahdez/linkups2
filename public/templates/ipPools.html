@@ -129,7 +129,7 @@
 		                        	</div>
 		                        </div>
 	                            <div class="col-sm-2 col-sm-offset-5">
-	                            	<button ng-disabled="invalidRange||subnetRangeForm.$invalid" ng-click="addRange(range)" class="btn btn-block btn-success">Agregar</button>
+	                            	<button ng-disabled="invalidRange||subnetRangeForm.$invalid||(range.firstSubnet==range.lastSubnet)" ng-click="addRange(range)" class="btn btn-block btn-success">Agregar</button>
 	                            </div>
                             </form>
                         </div>
