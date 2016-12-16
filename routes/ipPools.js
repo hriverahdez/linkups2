@@ -49,7 +49,7 @@ router.post('/', auth, function(req, res, next) {
 
 
 /* GET - Reading one */
-router.get('/:id', auth, function(req, res) {
+router.get('/:id', function(req, res) {
 	
 	IpPool.findById({ _id: req.params.id }, function (err, pool){
 		if(err){ 
@@ -67,8 +67,8 @@ router.get('/:id', auth, function(req, res) {
 
 
 /* PUT - Updating one */
-router.put('/:id', auth, function(req, res){
-    
+router.put('/:id', function(req, res){
+
     IpPool.findById({ _id: req.params.id }, function (err, pool){
 		if(err){ 
 			res.status(404).json(err);

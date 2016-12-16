@@ -78,7 +78,10 @@
                     <div class="empty-space-big"></div>
                     <div ng-show="isEdit">&Uacute;ltima modificaci&oacute;n: {{institution.last_modification_time | date:'medium'}} por @{{institution.last_modification_by}}</div>
                     <div align="right">
-                        <input type="button" class="btn btn-primary" ng-disabled="inst_form.$invalid" value="Guardar" ng-click="save(inst_form)"></input>
+
+                        <button type="button" class="btn btn-primary" ng-disabled="inst_form.$invalid" value="Guardar" ng-click="save(inst_form)">
+                            <i class="fa fa-save fa-fw"></i> Guardar
+                        </button>
                         <input type="button" class="btn btn-default" value="Cancelar" ng-click="cancel()"></input>
                     </div> 
                 </form>

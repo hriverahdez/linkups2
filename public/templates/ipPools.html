@@ -48,8 +48,12 @@
 									<div class="ip-block">
 										<i class="{{ipSubnetIcons[net.available]}}"></i>
 										<strong>{{net.ip}}/{{net.mask}}</strong>
-										<a class="srcless-link" ng-click="deleteSubnet(net._id)"><i class="fa fa-trash pull-right"></i></a>
-										<i class="fa fa-edit pull-right"> | </i>
+										<a class="srcless-link" ng-click="deleteSubnet(net._id)">
+											<i class="fa fa-trash pull-right"></i>
+										</a>
+										<a class="srcless-link" ng-click="editSubnet(net._id)">
+											<i class="fa fa-edit pull-right"> | </i>
+										</a>
 									</div>
 								</div> 
 							</div>
@@ -70,24 +74,11 @@
                         <div ng-if="activeTab=='addOne'">
                             <div class="empty-space-small"></div>
                             <form name="addOneSubnetForm">
-                            	<div class="col-sm-6 col-sm-offset-3">
-	                            	<div class="row">
-	                            		<div class="col-sm-6">
-	                            			<label>Direcci&oacute;n IP</label>
-	                            			<input type="text" class="form-control" ng-model="singleSubnet.ip" ng-pattern="ipMaskRegExp" placeholder="IP/CIDR" ng-change="showFullNetMask()" required> 
-	                            		</div>
-	                            		<div class="col-sm-6">
-
-	                            			<div class="text-muted singlesubnet-mask"><strong>M&aacute;scara: {{singleSubnet.fullMask}}</strong></div>
-	                            		</div>
-	                            	</div>
-	                            	<span class="help-block">Tenga en cuenta que no se validar&aacute; si la red se solapa con alguna ya existente</span>
-	                            </div>
-	                            <div class="col-sm-2 col-sm-offset-5">
-	                            	<button class="btn btn-block btn-success" ng-click="addOneSubnet()" ng-disabled="addOneSubnetForm.$invalid">Agregar</button>
-	                            </div>
+                            	<div ng-include="'/templates/addSubnetForm.html'"></div>
+                            	<div class="col-sm-2 col-sm-offset-5">
+									<button class="btn btn-block btn-success" ng-click="addOneSubnet()" ng-disabled="addOneSubnetForm.$invalid">Agregar</button>
+								</div>
                             </form>
-
                         </div>
                         <div ng-if="activeTab=='addRange'">
                             

@@ -88,15 +88,15 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 		};
 
 		$scope.showFullNetMask = function() {
-			if ($scope.singleSubnet.ip) {
-				var subnet = $scope.singleSubnet.ip.split('/');
+			if ($scope.singleSubnet.ipMask) {
+				var subnet = $scope.singleSubnet.ipMask.split('/');
 				var mask = subnet[1];
 				$scope.singleSubnet.fullMask = ipMgmtService.obtainNetmask(mask);
 			}
 		};
 
 		$scope.addOneSubnet = function() {
-			var subnet = $scope.singleSubnet.ip.split('/');
+			var subnet = $scope.singleSubnet.ipMask.split('/');
 			$scope.singleSubnet.ip = subnet[0];
 			$scope.singleSubnet.mask = subnet[1];
 			ipMgmtService.addSingleSubnet($scope.singleSubnet).$promise.then(function(){
@@ -116,6 +116,23 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 		$scope.$on("subnetDeletion", function (event, args) {
 			$scope.refreshSubnetList();
 		});
+
+		$scope.editSubnet = function(_id){
+						
+	    	ModalService.showModal({
+			    templateUrl: '/templates/editSubnet.html',
+			    controller: 'editSubnetCtrl',
+			    inputs: {
+			    	subnetId: _id
+			    }
+			    
+			}).then(function(modal) {
+            	modal.element.modal();
+            	
+            	//modal.close();
+            });
+
+	    };
 
 		$scope.deleteSubnet = function(_id){
 						

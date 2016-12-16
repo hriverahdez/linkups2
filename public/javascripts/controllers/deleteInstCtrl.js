@@ -23,7 +23,7 @@ angular.module('linkups2').controller('deleteInstCtrl', [
         $scope.internetStatusIcons = utilityService.getHasInternetIcons("fa-1x");
         
         
-        $scope.close = function() {
+        $scope.confirm = function() {
         	
         	instData.deleteInst({id: inst_id}, function(){
                 notificationService.notifyDelete($scope.info.name);

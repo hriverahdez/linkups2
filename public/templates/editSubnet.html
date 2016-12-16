@@ -1,0 +1,29 @@
+<div class="modal fade">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Modificar Subnet</h4>
+			</div>
+			<div class="modal-body">
+
+				<div class="row">
+					<div class="col-sm-12">
+						<form name="editSubnetForm">
+							<div ng-include="'/templates/addSubnetForm.html'"></div>
+						</form>
+					</div>              
+				</div>				
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" ng-disabled="editSubnetForm.$invalid" ng-click="confirm()" class="btn btn-primary" data-dismiss="modal">
+					<i class="fa fa-save"></i>
+					Guardar
+				</button>        
+				<button type="button" ng-click="close()" class="btn btn-default" data-dismiss="modal">Cancelar</button>        
+			</div>
+		</div>
+	</div>
+</div>

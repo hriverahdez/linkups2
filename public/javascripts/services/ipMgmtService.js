@@ -202,16 +202,26 @@ angular.module('linkups2').factory('ipMgmtService', [
 		};
 
 		/************************************************/
+		/************************************************/
 		/*	               DATA ACCESS                  */
+		/************************************************/
 		/************************************************/
 
 		ipMgmtService.getAllSubnets = function() {
 			return IPResource.getAllSubnets();
 		};
 
+		ipMgmtService.getById = function(_id) {
+			return IPResource.getById({ id: _id});
+		}
+
 		ipMgmtService.addSingleSubnet = function(subnet) {
 			return IPResource.saveOneSubnet(subnet);
 		}
+
+		ipMgmtService.updateSingleSubnet = function(subnet) {
+			return IPResource.updateSubnet(subnet);
+		};
 
 		ipMgmtService.addSubnetRange = function(firstSubnet, lastSubnet, CIDR) {
 			

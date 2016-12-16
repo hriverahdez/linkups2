@@ -97,12 +97,6 @@ angular.module('linkups2').factory('utilityService', [
 			$rootScope.loadingOperation = false;
 		};
 
-		utilityService.secureRouteFrom = function(userRole){
-			if (auth.currentUserRole() == userRole) {
-				$state.go(auth.getCurrentUserHome());
-			}
-		};
-
 		utilityService.getIPMASKRegex = function() {
 			var reg_exp = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([8-9]|[12]\d|3[0]))$/;
 			return reg_exp;

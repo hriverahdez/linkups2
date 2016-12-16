@@ -1,5 +1,5 @@
 angular.module('linkups2')
-.factory('auth', ['$http', '$window', '$resource', '$q', function($http, $window, $resource, $q){
+.factory('auth', ['$http', '$window', '$resource', '$q', '$state', function($http, $window, $resource, $q, $state){
 	var auth = {};
 
 	var headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -80,6 +80,12 @@ angular.module('linkups2')
 			return 'home';
 		else 
 			return 'guestHome';
+	};
+
+	auth.secureRouteFrom = function(userRole){
+		if (auth.currentUserRole() == userRole) {
+			$state.go(auth.getCurrentUserHome());
+		}
 	};
 	
 
