@@ -35,6 +35,7 @@ angular.module('linkups2').controller('addInstCtrl', [
 				destination: "Infomed"
 			}
 		];
+
 		$scope.instTypes = {};
 		angular.copy(utilityService.getInstitutionTypes(), $scope.instTypes);
 
@@ -48,10 +49,12 @@ angular.module('linkups2').controller('addInstCtrl', [
 									
 				instData.saveInst($scope.institution, function(){		
 
-					ipMgmtService.setUnavailable({_id: $scope.assignedWANID});
+					var wanIpMask = $scope.institution.wan.split('/');
+					ipMgmtService.setUnavailable({ip: wanIpMask[0]});
 					
 					if ($scope.assignedLANID != "") {
-						ipMgmtService.setUnavailable({_id: $scope.assignedLANID});
+						var lanIpMask = $scope.institution.lan.split('/');
+						ipMgmtService.setUnavailable({ip: lanIpMask[0]});
 					}
 
 					utilityService.hideLoader();
@@ -79,6 +82,14 @@ angular.module('linkups2').controller('addInstCtrl', [
 		/************************************/
 		/*******  WAN/LAN assignment  *******/
 		/************************************/
+
+		$scope.clearWAN = function() {
+			$scope.institution.wan = "";
+		};
+
+		$scope.clearLAN = function() {
+			$scope.institution.lan = "";
+		};
 
 
 		$scope.$on("selectedSubnet", function(event, args){
@@ -133,12 +144,47 @@ angular.module('linkups2').controller('addInstCtrl', [
 	'close',
 	'modalFor',
 	function($scope, ipMgmtService, $rootScope, close, modalFor) {
+		
+		$scope.noSelection = true;
+		
+		$scope.activeTab = 'list';
+
+		$scope.subnetListTabClass 	  = "active";
+		$scope.addOneSubnetTabClass   = "";
+		$scope.addSubnetRangeTabClass = "";
+
+		$scope.setActiveTab = function(tab) {
+			$scope.activeTab = tab;
+			if (tab=='list') {
+				$scope.subnetListTabClass 	  = "active";
+				$scope.addOneSubnetTabClass   = "";
+			}
+			else if (tab=='addOne') {
+				$scope.subnetListTabClass 	  = "";
+				$scope.addOneSubnetTabClass   = "active";
+			} 
+		};
+
+
+		$scope.noSubnets = false;
 		ipMgmtService.getAllAvailableSubnets().then(function(response){
+			if (response.data.length == 0)
+				$scope.noSubnets = true;
 			$scope.subnets = response.data;
 		});
+
+		$scope.refreshSubnetList = function() {
+			ipMgmtService.getAllAvailableSubnets().then(function(response){
+				if (response.data.length > 0)
+					$scope.noSubnets = false;			
+				$scope.subnets = response.data;
+			});
+		};
+
 		$scope.radioValue = {};
 
 		$scope.onRadioSelect = function(id) {
+			$scope.noSelection = false;
 			$scope.selectedID = id;
 		};
 

@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
 var IpPoolSchema = new mongoose.Schema({
-	ip: {type: String, unique: true},
-	mask: 	String,
-	available: { type: Boolean, default: true }
+	ip: 		String,
+	mask: 		String,
+	available: 	{ type: Boolean, default: true }
 });
 
 

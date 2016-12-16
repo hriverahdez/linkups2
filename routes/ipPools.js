@@ -60,7 +60,7 @@ router.post('/', auth, function(req, res, next) {
 
 router.post('/setAvailability', function(req, res){
 
-	IpPool.findById({ _id: req.body._id }, function(err, pool) {
+	IpPool.findOne({ ip: req.body.ip }, function(err, pool) {
 		if (err) {
 			res.status(404).json(err);
 		}
@@ -147,21 +147,21 @@ router.put('/:id', function(req, res){
 /* DELETE - Deleting one */
 router.delete('/:id', auth, function(req, res){
 
-    IpPool.remove({ _id: req.params.id }, function(err, ipPool){
-        if (err) throw err;
+	if (req.params.id === "ALL") {
+	    IpPool.remove({available: true}, function(err){
+	        if (err) console.log(err);
 
-        res.json(ipPool);
-    });
+	        res.json({message: "ok"});
+	    });
+	}
+	else {
 
-});
+	    IpPool.remove({ _id: req.params.id }, function(err, ipPool){
+	        if (err) throw err;
 
-router.delete('/deleteAll', auth, function(req, res){
-
-    IpPool.remove({}, function(err){
-        if (err) console.log(err);
-
-        res.json({message: "ok"});
-    });
+	        res.json(ipPool);
+	    });
+	}
 
 });
 

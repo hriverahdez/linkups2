@@ -491,7 +491,7 @@ table.dataTable thead .sorting:after {
     margin-top: 24px;
 }
 
-.register-label {
+.toggle-label {
     margin-top: 5px;
 }
 
@@ -618,4 +618,12 @@ input:checked + .slider:before {
 
 .push-down {
     line-height: 30px;
+}
+
+input.ng-dirty.ng-invalid {
+    /*background-color: pink;*/
+}
+
+.ip-label {
+    display: block;
 }

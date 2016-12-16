@@ -68,30 +68,13 @@ router.post('/initialize', function(req, res, next) {
 			})
 		}	
 		else {
+			res.json({message: "Settings have been initialized already"});
 			return;
 		}		
 		
 	});	
 
 });
-
-
-
-/*
-router.post('/check', function(req, res) {
-	console.log(req.body.settingName)	;
-	Setting.findOne({ settingName: req.body.settingName }, function (err, setting){
-		if(err){ 
-			res.status(404).json(err);
-			return; 
-		}
-		if (!setting) { 
-			res.status(404).json({message: 'can\'t find Setting'});
-			return;
-		}		
-		res.json(setting);	
-	});	
-}); */
 
 
 /* GET - Reading one */
@@ -139,16 +122,5 @@ router.put('/:id', function(req, res){
 
 });
 
-/* DELETE - Deleting one */
-/*
-router.delete('/:id', auth, function(req, res){
-    
-    Notification.remove({ _id: req.params.id }, function(err, notification){
-        if (err) throw err;
-
-        res.json(notification);
-    });
-});
-*/
 
 module.exports = router;

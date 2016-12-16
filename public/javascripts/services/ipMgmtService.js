@@ -277,7 +277,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 				url: '/api/ipPools/setAvailability',
 				headers: headers,
 				data: {
-					_id: 		subnet._id,
+					ip: 		subnet.ip,
 					available: 	false
 				},
 				transformRequest: $httpParamSerializerJQLike,
@@ -294,7 +294,7 @@ angular.module('linkups2').factory('ipMgmtService', [
 				url: '/api/ipPools/setAvailability',
 				headers: headers,
 				data: {
-					_id: 		subnet._id,
+					ip: 		subnet.ip,
 					available: 	true
 				},
 				transformRequest: $httpParamSerializerJQLike,

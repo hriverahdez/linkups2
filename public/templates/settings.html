@@ -12,7 +12,7 @@
 
 					<form role="form" name="settingsForm">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-sm-6">
 								<div class="form-group">
 									<label>Nombre de la provincia</label>
 									<input type="text" class="form-control" placeholder="Nombre de la Provincia"
@@ -20,27 +20,44 @@
 									<span class="help-block">Se usar&aacute; en algunos lugares de la aplicaci&oacute;n</span>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<div class="toggle-container">
-										<div class="col-sm-4 col-sm-offset-6">
-											<label class="register-label">Permitir Registro</label>
-										</div>
-										<div class="col-sm-2 pull-right">
-											<label class="switch">
-												<input type="checkbox" class="form-control" ng-model="setting.canRegister"> 
-												<div class="slider round"></div>
-											</label>
-										</div>
+							<div class="col-sm-6">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<div class="toggle-container">
+												<div class="col-sm-6">
+													<label class="">Permitir Registro</label>
+												</div>
+												<div class="col-sm-6 pull-right">
+													<label class="switch">
+														<input type="checkbox" class="form-control" ng-model="setting.canRegister"> 
+														<div class="slider round"></div>
+													</label>
+												</div>
 
+											</div>
+										</div>
 									</div>
-									
-									<!--
-									<label></label>
-									<input type="checkbox" >Permitir registro -->
-								</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<div class="toggle-container">
+												<div class="col-sm-6">
+													<label class="">Mostrar N&uacute;mero de L&iacute;nea en p&aacute;gina principal</label>
+												</div>
+												<div class="col-sm-6 pull-right">
+													<label class="switch">
+														<input type="checkbox" class="form-control" ng-model="setting.showLineNumber"> 
+														<div class="slider round"></div>
+													</label>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div> <!-- row -->
 							</div>
-						</div>
+						</div> <!-- row -->
+
 						<div class="row">
 							<div class="col-sm-4 col-sm-offset-4 text-center">
 								<button ng-disabled="settingsForm.$invalid" type="button" class="btn btn-primary" ng-click="saveSettings()">

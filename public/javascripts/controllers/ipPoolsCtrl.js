@@ -7,16 +7,8 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	'utilityService',
 	function($scope, ipMgmtService, settingsService, $state, ModalService, utilityService) {
 
-		$scope.range = {
-			mask: "24"
-		};
-		$scope.sortOrder = "ip";
-		$scope.singleSubnet = {
-			fullMask: "X.X.X.X"
-		};
-
-		// ************ SHOW FULL NESTMASK 
-		$scope.fullNetmask = ipMgmtService.obtainNetmask($scope.range.mask);
+		
+		$scope.sortOrder = "ip";		
 
 		// GETTING PROVINCE NAME FROM SETTINGS
 		settingsService.getSettings().then(function(setting){
@@ -47,8 +39,10 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 				$scope.addOneSubnetTabClass   = "";
 				$scope.addSubnetRangeTabClass = "active";
 			}
-		};		
+		};
 		// ******************END TABS CONTROL
+
+		$scope.noSubnetsAvailable = true;
 
 		/* ICONS FOR AVAILABILITY IN SUBNET LISTING */
 		$scope.ipSubnetIcons = {
@@ -56,62 +50,31 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 			false: "fa fa-check-square fa-fw"
 		}
 
-		$scope.noSubnets = true;
-		$scope.invalidRange = true;
-
 		// REGULAR EXPRESSIONS FOR IP AND IP/CIDR FORMATS 
 		$scope.ipRegExp = utilityService.getIPRegex();
 		$scope.ipMaskRegExp = utilityService.getIPMASKRegex();
 
+		$scope.anySubnetAvailable = function(subnets) {
+			var result = false;
+			angular.forEach(subnets, function(item) {
+				if (item.available) {					
+					result = true;
+				}
+			});
+			return result;
+		};
+
 		$scope.refreshSubnetList = function() {
 			ipMgmtService.getAllSubnets().$promise.then(function(data){			
 				$scope.subnets = data;				
-				if (data.length != 0)
-					$scope.noSubnets = false;
+				if ($scope.anySubnetAvailable(data)) {
+					$scope.noSubnetsAvailable = false;
+				}
 				else
-					$scope.noSubnets = true;
+					$scope.noSubnetsAvailable = true;
 			});
 		};
-
 		$scope.refreshSubnetList();
-
-		$scope.validateRange = function(form) {
-			$scope.fullNetmask = ipMgmtService.obtainNetmask($scope.range.mask);
-			if (form.$valid) {
-				if (ipMgmtService.rangeIsValid($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask)) {
-					$scope.invalidRange = false;
-				}
-				else {
-					$scope.invalidRange = true;	
-				}
-			}
-		};
-
-		$scope.showFullNetMask = function() {
-			if ($scope.singleSubnet.ipMask) {
-				var subnet = $scope.singleSubnet.ipMask.split('/');
-				var mask = subnet[1];
-				$scope.singleSubnet.fullMask = ipMgmtService.obtainNetmask(mask);
-			}
-		};
-
-		$scope.addOneSubnet = function() {
-			var subnet = $scope.singleSubnet.ipMask.split('/');
-			$scope.singleSubnet.ip = subnet[0];
-			$scope.singleSubnet.mask = subnet[1];
-			ipMgmtService.addSingleSubnet($scope.singleSubnet).$promise.then(function(){
-				$scope.refreshSubnetList();
-			});
-		};
-
-		$scope.addRange = function() {
-			if (ipMgmtService.rangeIsValid($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask)) {
-				ipMgmtService.addSubnetRange($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask)
-					.$promise.then(function(){
-						$scope.refreshSubnetList();
-					});
-			}
-		};
 
 		$scope.$on("subnetDeletion", function (event, args) {
 			$scope.refreshSubnetList();
@@ -186,12 +149,12 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	    		});
 	    	}
 	    	else if (deleteSubnetId == "ALL") {
-	    		ipMgmtService.deleteAllSubnets().then(function() {
+	    		ipMgmtService.deleteSubnet("ALL").$promise.then(function() {
 	    			$rootScope.$broadcast("subnetDeletion", {						
 					});
 	    		});
 	    	}
-	    	//$state.transitionTo('viewUsers', {}, {reload: true});	    		    	
+
 	    	close({
                 
             }, 500);

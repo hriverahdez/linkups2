@@ -7,10 +7,17 @@ angular.module('linkups2')
 	'utilityService',
 	'$filter',
 	'DTOptionsBuilder',
-	'$rootScope',
-	'$timeout',
-	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder, $rootScope, $timeout) {
-	
+	'$rootScope',	
+	'settingsService',
+	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder, $rootScope, settingsService) {
+		
+		$scope.canShowLineNumber = false;
+
+		settingsService.getSettings().then(function(setting){
+			$scope.provinceName = setting.data[0].provinceName;
+			$scope.canShowLineNumber = setting.data[0].showLineNumber;
+		});
+
 		$scope.typeIconClasses = utilityService.getInstTypeIcons("fa-2x fa-fw");
 		$scope.legendIconClasses = utilityService.getInstTypeIcons("fa-1x");
 

@@ -8,24 +8,58 @@
 			</div>
 			<div class="modal-body">
 
-				<div class="row">
-					<div class="col-sm-12">
+				<div class="container-fluid">
+					<ul class="nav nav-tabs">
+		                <li ng-class="subnetListTabClass">
+		                	<a class="srcless-link" ng-click="setActiveTab('list')">Subnets</a>
+		                </li>
+		                <li ng-class="addOneSubnetTabClass">
+		                	<a class="srcless-link" ng-click="setActiveTab('addOne')">Agregar Una</a>
+		                </li>	                
+		            </ul>
 
-						<div ng-repeat="net in subnets | orderBy: sortOrder | filter:searchQuery" class="col-sm-6 col-md-4 col-lg-3">
-							<div class="ip-block srcless-link">
-								<label class="radio-inline">
-									<input type="radio" name="subnetRadio" 
-									ng-change="onRadioSelect(radioValue)" value="{{net._id}}" ng-model="radioValue"></input>
-									<strong>{{net.ip}}/{{net.mask}}</strong>
-								</label>
+					<div class="tab-content">
+						<div ng-if="activeTab=='list'">
+							<div class="empty-space-small"></div>							
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="text-center" ng-if="noSubnets">
+										<span class="text-muted">
+											No hay subredes disponibles. Agregue algunas en la secci&oacute;n 'Gesti&oacuten IPs' para poder asignar.
+										</span>
+									</div>
+									<div class="col-sm-6 col-md-4 col-lg-3" 
+									ng-repeat="net in subnets | orderBy: sortOrder | filter:searchQuery">
+										<div class="ip-block">
+											<label class="radio-inline ip-label">
+												<input type="radio" name="subnetRadio"
+												ng-change="onRadioSelect(radioValue)" value="{{net._id}}" ng-model="radioValue"></input>
+												<strong>{{net.ip}}/{{net.mask}}</strong>
+											</label>
+										</div>
+									</div><!--ng repeat -->
+								</div>              
 							</div>
-						</div>
-					</div>              
-				</div>				
 
-			</div>
+
+						</div>
+						<div ng-if="activeTab=='addOne'">
+							<div class="empty-space-small"></div>
+	                        <div ng-controller="addSingleSubnetCtrl">
+	                        	<form name="addOneSubnetForm" ng-cloak>
+	                            	<div ng-include="'/templates/addSubnetForm.html'"></div>
+	                            	<div class="col-sm-2 col-sm-offset-5">
+										<button class="btn btn-block btn-success" ng-click="addOneSubnet()" ng-disabled="addOneSubnetForm.$invalid">Agregar</button>
+									</div>
+	                            </form>
+	                        </div>
+						</div>
+					</div> <!-- tab content -->
+				</div> <!-- container -->
+
+			</div> <!-- modal body -->
 			<div class="modal-footer">
-				<button type="button" ng-click="confirm()" class="btn btn-primary" data-dismiss="modal">Seleccionar</button>		      
+				<button type="button" ng-disabled="noSelection" ng-click="confirm()" class="btn btn-primary" data-dismiss="modal">Seleccionar</button>		      
 				<button type="button" ng-click="close()" class="btn btn-default" data-dismiss="modal">Cancelar</button>        
 			</div>
 		</div>

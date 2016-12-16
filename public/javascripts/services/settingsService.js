@@ -36,8 +36,9 @@ angular.module('linkups2').factory('settingsService', function ($resource, auth,
 			headers: headers,
 			transformRequest: transformRequestFn,
 			data: { 
-				canRegister: setting.canRegister,
-				provinceName: setting.provinceName, 
+				canRegister: 	setting.canRegister,
+				provinceName: 	setting.provinceName,
+				showLineNumber: setting.showLineNumber,
 			}
 		}).success(function (user) {
 			
