@@ -1,7 +1,9 @@
 angular.module('linkups2').controller('guestHomeCtrl', [
 	'$scope',
 	'utilityService',
-	function($scope, utilityService) {
+	'instRequestService',
+	function($scope, utilityService, instRequestService) {
+
 		$scope.typeIconClasses = utilityService.getInstTypeIcons("fa-2x fa-fw");
 		$scope.internetStatusIcons = utilityService.getHasInternetIcons("fa-1x");
 		$scope.activeTab = 'pending';
@@ -29,6 +31,23 @@ angular.module('linkups2').controller('guestHomeCtrl', [
 			false: 'fa fa-close'
 		};
 		
+		instRequestService.getAllInstRequests(function(allReq) {
+			$scope.allRequests = allReq; 
+			$scope.approvedRequests = $scope.filterRequests(allReq, true);
+			$scope.pendingRequests = $scope.filterRequests(allReq, false);
+
+		});
+
+		$scope.filterRequests = function(reqArray, filterBy) {
+			var result = [];
+			angular.forEach(reqArray, function(item) {
+				if (item.approved == filterBy) 
+					result.push(item);
+			});
+			return result;
+		};
+
+		/*
 		$scope.approvedRequests = [
 			{
 				name: 'Centro Generica de fango al pecho',
@@ -66,5 +85,6 @@ angular.module('linkups2').controller('guestHomeCtrl', [
 				statusIssue: 'Su solicitud no puede ser atendida porque ya existe una institución en esa localidad con ese nombre'
 			}
 		];
+		*/
 	}
 ]);

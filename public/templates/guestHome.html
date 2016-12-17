@@ -1,3 +1,4 @@
+<div ng-include="'/templates/guestNavigationBadges.html'"></div>
 <div class="container-fluid">
 	
 	<div class="row">	    			
@@ -32,7 +33,7 @@
 									<div class="col-sm-1"><strong>TIPO</strong></div>
 									<div class="col-sm-4"><strong>Nombre</strong></div>
 									<div class="col-sm-2"><strong>Localidad</strong></div>
-									<div class="col-sm-2"><strong>Con Internet</strong></div>
+									<div class="col-sm-2"><strong>Fecha creaci&oacute;n</strong></div>
 									<div class="col-sm-3">
 										<strong>Estado</strong>
 										<span class="pull-right">
@@ -46,15 +47,13 @@
 									<div class="col-sm-1"><i class="{{ typeIconClasses[req.type].iconClass }}"></i></div>
 									<div class="col-sm-4">{{req.name}}</div>
 									<div class="col-sm-2">{{req.location}}</div>
-									<div class="col-sm-2"><i class="{{internetStatusIcons[req.has_internet]}}"></i></div>
+									<div class="col-sm-2">{{req.createdAt | date:'short'}}</div>
 									<div class="col-sm-3">
 										<div class="my-tooltip">
 											{{req.status}}
 											<span class="tooltiptext">{{req.statusIssue}}</span>
 										</div>										
 									</div>
-
-									<div class="col-sm-2"><i class="{{reqStatusIcons[req.approved]}}"></i> </div>
 								</div>
 							</div>
                         </div>
@@ -62,23 +61,22 @@
                             <div ng-repeat="req in approvedRequests" class="alert alert-info">
 								<div class="row">
 									<div class="col-sm-1"><strong>TIPO</strong></div>
-									<div class="col-sm-3"><strong>Nombre</strong></div>
+									<div class="col-sm-4"><strong>Nombre</strong></div>
 									<div class="col-sm-2"><strong>Localidad</strong></div>
-									<div class="col-sm-2"><strong>Con Internet</strong></div>
-									<div class="col-sm-2"><strong>Ancho Banda</strong></div>
-									<div class="col-sm-2">
-										<strong>Aprobado</strong>
+									<div class="col-sm-2"><strong>Fecha aprobaci&oacute;n</strong></div>
+									<div class="col-sm-3">
+										<strong>Aprobado por</strong>
 										<span class="pull-right">
 											<i class="fa fa-trash fa-fw"></i>
 										</span>										
 									</div>
 									<hr>
 									<div class="col-sm-1"><i class="{{ typeIconClasses[req.type].iconClass }}"></i></div>
-									<div class="col-sm-3">{{req.name}}</div>
+									<div class="col-sm-4">{{req.name}}</div>
 									<div class="col-sm-2">{{req.location}}</div>
-									<div class="col-sm-2"><i class="{{internetStatusIcons[req.has_internet]}}"></i></div>
-									<div class="col-sm-2">{{req.bandwidth}}</div>
-									<div class="col-sm-2"><i class="{{reqStatusIcons[req.approved]}}"></i> </div>
+									<div class="col-sm-2">{{req.approvedAt | date:'short'}}</div>
+									<div class="col-sm-3"><label class="label label-primary">@{{req.approvedBy}}</label></div>
+									</div>
 								</div>
 							</div>
                         </div>                        

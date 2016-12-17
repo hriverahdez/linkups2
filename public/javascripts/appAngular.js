@@ -169,7 +169,19 @@
 						auth.secureRouteFrom('ADMIN');
 					}]
 				})
-				
+				.state('guestInstitutions', {
+					url: '/guestInstitutions',
+					templateUrl: '/templates/guestInstitutions.html',
+					controller: 'guestInstitutionsCtrl',
+					onEnter: ['$state', 'auth', function($state, auth){
+						if (!auth.isLoggedIn()){							
+							$state.go('login');							
+						}
+						// Do not allow user to enter state if role is ADMIN
+						auth.secureRouteFrom('ADMIN');
+					}]
+				})
+
 
 			$urlRouterProvider.otherwise('login');
 	}])
@@ -220,6 +232,11 @@
 		$rootScope.logOut = function(){
 			auth.logOut();
 		};
+
+		$rootScope.goToUserHome = function() {
+			$state.go(auth.getCurrentUserHome());
+		};
+
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 		    if (toState.name === 'login' || toState.name === 'register') {
 		    	//toState variable see the state you're going 

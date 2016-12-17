@@ -17,6 +17,7 @@ var app = express();
 /* requiring models */
 require('./models/Users');
 require('./models/Institutions');
+require('./models/InstitutionRequests');
 require('./models/Notifications');
 require('./models/IpPools');
 require('./models/Settings');
@@ -28,6 +29,7 @@ require('./config/passport');
 var index         = require('./routes/index');
 var users         = require('./routes/users');
 var institutions  = require('./routes/institutions');
+var instRequests  = require('./routes/institutionRequests');
 var notifications = require('./routes/notifications');
 var ipPools       = require('./routes/ipPools');
 var settings      = require('./routes/settings');
@@ -58,6 +60,7 @@ app.use(passport.initialize());
 /* using routes */
 app.use('/', index);
 app.use('/api/institutions', institutions);
+app.use('/api/instRequests', instRequests);
 app.use('/api/users', users);
 app.use('/api/notifications', notifications);
 app.use('/api/ipPools', ipPools);
