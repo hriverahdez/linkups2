@@ -22,33 +22,19 @@
                         <thead>
                             <tr>
                                 <th>Username</th>
-                                <th>Nombre Completo</th>
-                                <th>Rol</th>
-                                <th colspan="2" class="text-center">Operaciones</th>
+                                <th>Nombre Completo</th>                                
+                                <th>Operaciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="admin-row">
                                 <td><strong>{{admin.username}}</strong></td>
                                 <td><strong>{{admin.fullname}}</strong></td>
-                                <td>{{admin.role}}</td>
-                                <td></td>
                                 <td></td>
                             </tr>
                             <tr ng-repeat="user in users">
                                 <td ng-if="user.username!=admin.username">{{user.username}}</td>
                                 <td ng-if="user.username!=admin.username">{{user.fullname}}</td>
-                                <td ng-if="user.username!=admin.username">{{user.role}}</td>
-                                <td ng-if="user.username!=admin.username">
-                                    <a ng-click="changeRole(user)" ng-if="user.role!='GUEST'&&user.username!=currentUser" 
-                                        class="btn btn-danger btn-xs">
-                                        <span class="fa fa-arrow-down fa-fw"></span>Guest
-                                    </a>
-                                    <a ng-click="changeRole(user)" ng-if="user.role!='ADMIN'&&user.username!=currentUser" 
-                                        class="btn btn-success btn-xs">
-                                        <span class="fa fa-arrow-up fa-fw"></span>Admin
-                                    </a>
-                                </td>
                                 <td ng-if="user.username!=admin.username&&user.username!=currentUser">
                                     <a class="srcless-link" ng-click="deleteUser(user._id)">
                                         <i class="fa fa-trash"></i> 

@@ -39,13 +39,7 @@
                                 <label>Repetir contrase&ntilde;a</label>
                                 <input class="form-control" ng-model="user.passconfirm" placeholder="Password" name="password" type="password" ng-Change="checkPasswordsMatch()" required>
                             </div>                            
-                        </div>
-                        <div ng-if="create" class="form-group">
-                                <div class="checkbox">
-                                    <label><input type="checkbox" ng-model="user.role">ADMIN?</label>
-                                </div>
-                            </div>
-                        <div class="empty-space-small"></div>
+                        </div>                        
                         <div class="alert alert-danger" ng-model="error" ng-if="error">{{error.message}}</div>
                         <hr>
                         <div class="row">

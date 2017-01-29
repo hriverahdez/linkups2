@@ -1,11 +1,13 @@
 angular.module('linkups2').controller('addSingleSubnetCtrl', [
 	'$scope',
 	'ipMgmtService',
-	function($scope, ipMgmtService) {
+	'utilityService',
+	function($scope, ipMgmtService, utilityService) {
 		
 		$scope.singleSubnet = {
 			fullMask: "X.X.X.X"
 		};
+		$scope.ipMaskRegExp = utilityService.getIPMASKRegex();
 
 		$scope.showFullNetMask = function() {
 			if ($scope.singleSubnet.ipMask) {

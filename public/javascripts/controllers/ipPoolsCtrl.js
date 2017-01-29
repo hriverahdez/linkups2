@@ -52,7 +52,6 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 
 		// REGULAR EXPRESSIONS FOR IP AND IP/CIDR FORMATS 
 		$scope.ipRegExp = utilityService.getIPRegex();
-		$scope.ipMaskRegExp = utilityService.getIPMASKRegex();
 
 		$scope.anySubnetAvailable = function(subnets) {
 			var result = false;
