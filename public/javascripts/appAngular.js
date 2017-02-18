@@ -56,101 +56,47 @@
 				.state('home', {
 					url: '/home',
 					templateUrl: '/templates/home.html',
-					controller: 'homeCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if (!auth.isLoggedIn()){						
-							$state.go('login');
-						}
-						// Do not allow user to enter state if role is GUEST
-						auth.secureRouteFrom('GUEST');
-					}]
+					controller: 'homeCtrl',					
 				})				
 				.state('addInst', {
 					url: '/addInst',
 					templateUrl: '/templates/addInst.html',
-					controller: 'addInstCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]
+					controller: 'addInstCtrl',					
 				})
 				.state('updateInst', {
 					url: '/updateInst/:id',
 					templateUrl: '/templates/addInst.html',
-					controller: 'updateInstCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]
+					controller: 'updateInstCtrl',					
 				})
 				.state('showAllNotifications', {
 					url: '/showAllNotifications',
 					templateUrl: '/templates/notifications.html',
-					controller: 'notificationCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]
+					controller: 'notificationCtrl',					
 				})
 				.state('viewUsers', {
 					url: '/viewUsers',
 					templateUrl: '/templates/viewUsers.html',
-					controller: 'viewUsersCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]
+					controller: 'viewUsersCtrl',					
 				})
 				.state('viewProfile', {
 					url: '/viewProfile',
 					templateUrl: '/templates/profile.html',
-					controller: 'profileCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-					}]
+					controller: 'profileCtrl',					
 				})
 				.state('createUser', {
 					url: '/createUser',
 					templateUrl: '/templates/register.html',
-					controller: 'loginCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]				
+					controller: 'loginCtrl',					
 				})
 				.state('stats', {
 					url: '/stats',
 					templateUrl: '/templates/stats.html',
-					controller: 'statsCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]	
+					controller: 'statsCtrl',					
 				})
 				.state('settings', {
 					url: '/settings',
 					templateUrl: '/templates/settings.html',
-					controller: 'settingsCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						auth.secureRouteFrom('GUEST');
-					}]
+					controller: 'settingsCtrl',					
 				})
 				.state('ipPools', {
 					url: '/ipPools',
@@ -158,7 +104,8 @@
 					controller: 'ipPoolsCtrl'
 				})		
 
-
+				/////////// GUEST HOME STATES /////////////
+				/*
 				.state('guestHome', {
 					url: '/guestHome',
 					templateUrl: '/templates/guestHome.html',
@@ -182,13 +129,13 @@
 						// Do not allow user to enter state if role is ADMIN
 						auth.secureRouteFrom('ADMIN');
 					}]
-				})
-
+				})*/
 
 			$urlRouterProvider.otherwise('login');
+
 	}])
 
-	.run(function ($rootScope, $state, auth, settingsService) {
+	.run(function ($rootScope, $state, auth, settingsService, $location) {
 
 		// INITITALIZING APP //
 		$rootScope.initialConfig = function() {
@@ -226,24 +173,37 @@
 		// TOGGLE OFF THE LOADING OVERLAY
 		$rootScope.loadingOperation = false;
 
-		// GET CURRENT USER INFO - TRIGGERED AFTER LOG IN			
-		$rootScope.checkIfUserLoggedIn = function(){ 
-			return auth.isLoggedIn();
-		};		
-
 		$rootScope.goToUserHome = function() {
 			$state.go(auth.getCurrentUserHome());
 		};
 
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-		    if (toState.name === 'login' || toState.name === 'register') {
-		    	//toState variable see the state you're going 
-		        $rootScope.showNavbar = false;		        
-		    } else {		    			    	
-		    	if ($rootScope.checkIfUserLoggedIn()) {
 
-		    	}
+			var securedAppStates = [
+				'home', 
+				'addInst', 
+				'updateInst', 
+				'showAllNotifications', 
+				'viewUsers', 
+				'viewProfile',
+				'createUser',
+				'stats',
+				'settings',
+				'ipPools'
+			];
+
+			if (($.inArray(toState.name, securedAppStates) !== -1) ) {
+				if (!auth.isLoggedIn()) {					
+					event.preventDefault();
+					$state.go('login');
+				}
+			}
+
+		    if ((toState.name === 'login' || toState.name === 'register') && auth.isLoggedIn()) {		    
+		        event.preventDefault();
+		        $state.go('home');
 		    }
+		    
 		});
 	});
 
