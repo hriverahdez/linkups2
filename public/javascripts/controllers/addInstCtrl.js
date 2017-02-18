@@ -7,7 +7,12 @@ angular.module('linkups2').controller('addInstCtrl', [
 	'ModalService',
 	'utilityService',
 	'ipMgmtService',
-	function($scope, $state, instData, notificationService, $rootScope, ModalService, utilityService, ipMgmtService){
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, $state, instData, notificationService, $rootScope, ModalService, utilityService, ipMgmtService, NAVBAR_TEMPLATE_URL){
+
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
 		$scope.isLoading = false;
 		$scope.isEdit = false;
 
