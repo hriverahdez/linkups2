@@ -9,6 +9,8 @@
 		'ng-fusioncharts'
 	])
 
+	.constant('NAVBAR_TEMPLATE_URL', '/templates/nav.html')
+
 	.config([
 		'$stateProvider',
 		'$urlRouterProvider',
@@ -188,6 +190,7 @@
 
 	.run(function ($rootScope, $state, auth, settingsService) {
 
+		// INITITALIZING APP //
 		$rootScope.initialConfig = function() {
 			
 			//CREATING DEFAULT USER
@@ -211,6 +214,9 @@
 		};
 
 		$rootScope.initialConfig();
+		/////////////////////////////////////////
+
+
 
 		// UPDATE PROVINCE NAME ON NAVBAR AFTER CHANGE IN SETTINGS
 		$rootScope.$on('settingsSaved', function(event, args){
@@ -219,19 +225,11 @@
 
 		// TOGGLE OFF THE LOADING OVERLAY
 		$rootScope.loadingOperation = false;
-		// HIDE NAVBAR ON LOGIN SCREEN
-		$rootScope.showNavbar = false;
-		// GET CURRENT USER INFO - TRIGGERED AFTER LOG IN
-		$rootScope.getCurrentUser = function(){
-			$rootScope.currentUser 		= auth.currentUser();
-			$rootScope.currentUserRole 	= auth.currentUserRole();
-		};		
+
+		// GET CURRENT USER INFO - TRIGGERED AFTER LOG IN			
 		$rootScope.checkIfUserLoggedIn = function(){ 
 			return auth.isLoggedIn();
-		};
-		$rootScope.logOut = function(){
-			auth.logOut();
-		};
+		};		
 
 		$rootScope.goToUserHome = function() {
 			$state.go(auth.getCurrentUserHome());
@@ -243,8 +241,7 @@
 		        $rootScope.showNavbar = false;		        
 		    } else {		    			    	
 		    	if ($rootScope.checkIfUserLoggedIn()) {
-		    		$rootScope.getCurrentUser();		    		
-		        	$rootScope.showNavbar = true;
+
 		    	}
 		    }
 		});

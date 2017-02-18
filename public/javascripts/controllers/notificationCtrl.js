@@ -5,7 +5,12 @@ angular.module('linkups2').controller('notificationCtrl', [
 	'$timeout',
 	'utilityService',
 	'DTOptionsBuilder',
-	function($scope, auth,notificationService, $timeout, utilityService, DTOptionsBuilder){
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, auth,notificationService, $timeout, utilityService, DTOptionsBuilder, NAVBAR_TEMPLATE_URL){
+
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		}
 		
 		$scope.sortOrder = '-time';
 		$scope.notificationIcons = utilityService.getNotificationIcons("fa-1x");

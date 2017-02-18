@@ -3,8 +3,13 @@ angular.module('linkups2').controller('settingsCtrl', [
 	'settingsService',
 	'$state',
 	'$rootScope',
-	function ($scope, settingsService, $state, $rootScope) {
+	'NAVBAR_TEMPLATE_URL',
+	function ($scope, settingsService, $state, $rootScope, NAVBAR_TEMPLATE_URL) {
 		
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
+
 		settingsService.getSettings().then(function(setting){
 			$scope.setting = setting.data[0];
 			

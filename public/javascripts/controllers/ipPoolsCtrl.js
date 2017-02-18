@@ -5,9 +5,13 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	'$state',
 	'ModalService',
 	'utilityService',
-	function($scope, ipMgmtService, settingsService, $state, ModalService, utilityService) {
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, ipMgmtService, settingsService, $state, ModalService, utilityService, NAVBAR_TEMPLATE_URL) {
 
-		
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
+
 		$scope.sortOrder = "ip";		
 
 		// GETTING PROVINCE NAME FROM SETTINGS

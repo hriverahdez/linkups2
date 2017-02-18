@@ -9,8 +9,13 @@ angular.module('linkups2')
 	'DTOptionsBuilder',
 	'$rootScope',	
 	'settingsService',
-	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder, $rootScope, settingsService) {
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder, $rootScope, settingsService, NAVBAR_TEMPLATE_URL) {
 		
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
+
 		$scope.canShowLineNumber = false;
 
 		settingsService.getSettings().then(function(setting){

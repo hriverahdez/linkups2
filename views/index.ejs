@@ -37,18 +37,9 @@
 
     <div id="wrapper">
 
-        <div ng-include="'/templates/nav.html'"></div>
-        
-        <div class="container-fluid">
+        <!-- UI ROUTER VIEW CONTAINER -->
+    	<ui-view></ui-view>
             
-            <!-- UI ROUTER VIEW CONTAINER -->
-        	<ui-view></ui-view>
-            
-        </div>
-        <!-- /#container -->
-
-
-        
         <div class="loading-overlay" ng-if="loadingOperation">
             <div class="loading-box" align="center">
                 <div class="loader"></div>
@@ -102,6 +93,7 @@
 
     <!-- Angular Controllers -->
     <script src="/javascripts/controllers/homeCtrl.js"></script>
+    <script src="/javascripts/controllers/navBarCtrl.js"></script>
     <script src="/javascripts/controllers/loginCtrl.js"></script>
     <script src="/javascripts/controllers/notificationCtrl.js"></script>    
     <script src="/javascripts/controllers/addInstCtrl.js"></script> 

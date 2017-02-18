@@ -4,7 +4,12 @@ angular.module('linkups2').controller('statsCtrl', [
 	'$filter',
 	'settingsService',
 	'utilityService',
-	function($scope, instData, $filter, settingsService, utilityService) {
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, instData, $filter, settingsService, utilityService, NAVBAR_TEMPLATE_URL) {
+
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
 
 		$scope.bandwidthGroups = [];
 		$scope.internetGroups = [];
