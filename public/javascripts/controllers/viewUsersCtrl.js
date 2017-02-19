@@ -2,11 +2,14 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 	'$scope', 
 	'auth',
 	'ModalService',
-	'$element',
-	'$rootScope',
+	'$element',	
 	'$state',
-	function($scope, auth, ModalService, $element, $rootScope, $state){
-
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, auth, ModalService, $element, $state, NAVBAR_TEMPLATE_URL){
+		
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
 		auth.retrieveUserList().then(function(users){
 			$scope.users = users.data;
 			// ASSIGN ADMIN DEFAULT USER TO ANOTHER VARIABLE
@@ -17,7 +20,7 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 			});
 		});
 
-		$scope.currentUser = $rootScope.currentUser;
+		$scope.currentUser = auth.currentUser();
 
 		$scope.changeRole = function(user) {
 			user.role = user.role=='GUEST'?'ADMIN':'GUEST';

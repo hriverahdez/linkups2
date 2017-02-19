@@ -16,16 +16,11 @@
                 <form role="form" ng-submit="logIn()">
                     <fieldset>
                         <div class="form-group">
-                            <input class="form-control" ng-model="user.username" placeholder="Username" name="username" type="username" autofocus/>
+                            <input class="form-control" ng-model="user.username" placeholder="Usuario" name="username" type="username" autofocus/>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" ng-model="user.password" placeholder="Password" name="password" type="password" value="">
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input name="remember" type="checkbox" value="Remember Me">Recordarme
-                            </label>                            
-                        </div>
+                            <input class="form-control" ng-model="user.password" placeholder="Contraseña" name="password" type="password" value="">
+                        </div>                        
                         <div align="center" ng-if="canRegister">
                             Si no tiene una cuenta <a href="#/register">reg&iacute;strese</a> 
                         </div>

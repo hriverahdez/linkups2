@@ -73,7 +73,7 @@ angular.module('linkups2')
 					$scope.error = err;
 				})
 				.then(function(){				
-					$state.go('guestHome', {}, {reload: true});
+					$state.go('home', {}, {reload: true});
 				});			
 				
 			};
@@ -97,7 +97,7 @@ angular.module('linkups2')
 					$scope.error = err;
 				})
 				.then(function(){
-					$state.go(auth.getCurrentUserHome(), {}, {reload: true});
+					$state.go('home', {}, {reload: true});
 				});
 			};	
 

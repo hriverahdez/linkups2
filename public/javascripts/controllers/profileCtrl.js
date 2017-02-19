@@ -2,8 +2,12 @@ angular.module('linkups2').controller('profileCtrl', [
 	'$scope',
 	'auth',
 	'$state',
-	function($scope, auth, $state){
+	'NAVBAR_TEMPLATE_URL',
+	function($scope, auth, $state, NAVBAR_TEMPLATE_URL){
 
+		$scope.navbar = {
+			url: NAVBAR_TEMPLATE_URL
+		};
 		$scope.passwordChange = false;
 		$scope.passwordsDontMatch = false;
 
