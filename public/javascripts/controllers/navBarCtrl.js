@@ -1,7 +1,8 @@
 angular.module('linkups2').controller('navBarCtrl', [
 	'$scope',
 	'auth',
-	function($scope, auth) {
+	'$state',
+	function($scope, auth, $state) {
 
 		$scope.currentUser 		= auth.currentUser();
 		$scope.currentUserRole 	= auth.currentUserRole();
@@ -14,5 +15,6 @@ angular.module('linkups2').controller('navBarCtrl', [
 		$scope.$on('settingsSaved', function(event, args){
 			$scope.provinceName = args.newProvinceName;
 		});
+		
 	}
 ]);

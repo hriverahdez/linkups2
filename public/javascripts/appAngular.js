@@ -163,19 +163,8 @@
 		$rootScope.initialConfig();
 		/////////////////////////////////////////
 
-
-
-		// UPDATE PROVINCE NAME ON NAVBAR AFTER CHANGE IN SETTINGS
-		$rootScope.$on('settingsSaved', function(event, args){
-			$rootScope.provinceName = args.newProvinceName;
-		});
-
 		// TOGGLE OFF THE LOADING OVERLAY
 		$rootScope.loadingOperation = false;
-
-		$rootScope.goToUserHome = function() {
-			$state.go(auth.getCurrentUserHome());
-		};
 
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
@@ -191,12 +180,10 @@
 				'settings',
 				'ipPools'
 			];
-
-			if (($.inArray(toState.name, securedAppStates) !== -1) ) {
-				if (!auth.isLoggedIn()) {					
-					event.preventDefault();
-					$state.go('login');
-				}
+			// If accessing one of the securedAppStates and user is not logged in
+			if (($.inArray(toState.name, securedAppStates) !== -1) && !auth.isLoggedIn()) {
+				event.preventDefault();
+				$state.go('login');
 			}
 
 		    if ((toState.name === 'login' || toState.name === 'register') && auth.isLoggedIn()) {		    
