@@ -145,8 +145,6 @@ angular.module('linkups2').factory('ipMgmtService', [
 			var blockSize = 256 - ipMgmtService.getHostsOctet(borrowedBits);			
 			var count = 0;
 			var current = 0;
-			var hostOctect = parseInt(firstSubnetOctets[amountNetworkOctets]);
-			
 			
 			while (parseInt(lastSubnetOctets[amountNetworkOctets]) >= current) {
 				current += blockSize;
