@@ -30,6 +30,9 @@ angular.module('linkups2').controller('addSubnetRangeCtrl', [
 					.$promise.then(function(){
 						$scope.refreshSubnetList();
 					});
+
+				//ipMgmtService.addSubnetRange($scope.range.firstSubnet, $scope.range.lastSubnet, $scope.range.mask);
+					
 			}
 		};
 	}
