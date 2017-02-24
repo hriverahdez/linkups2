@@ -70,7 +70,6 @@ angular.module('linkups2')
 				});
 			};
 
-
 			$scope.register = function(){	
 				auth.register($scope.user)
 				.error(function(err){
