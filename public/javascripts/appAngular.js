@@ -23,23 +23,13 @@
 					url: '/login',
 					templateUrl: '/templates/login.html',
 					controller: 'loginCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if(auth.isLoggedIn()){
-							// If user is already logged in, redirect to his home
-							$state.go(auth.getCurrentUserHome(), {}, {reload: true});
-						}
-					}]
 				})
 
 				.state('register', {
 					url: '/register',
 					templateUrl: '/templates/register.html',
 					controller: 'loginCtrl',
-					onEnter: ['$state', 'auth', 'settingsService', function($state, auth, settingsService){						
-						if(auth.isLoggedIn()){
-							// If user is already logged in, redirect to his home
-							$state.go(auth.getCurrentUserHome(), {}, {reload: true});
-						}						
+					onEnter: ['$state', 'auth', 'settingsService', function($state, auth, settingsService){
 						settingsService.getSettings().then(function(settings){
 							// If registration is disabled, send user back to login page
 							// returns an Array of settings, but since only 
@@ -104,33 +94,6 @@
 					controller: 'ipPoolsCtrl'
 				})		
 
-				/////////// GUEST HOME STATES /////////////
-				/*
-				.state('guestHome', {
-					url: '/guestHome',
-					templateUrl: '/templates/guestHome.html',
-					controller: 'guestHomeCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if (!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						// Do not allow user to enter state if role is ADMIN
-						auth.secureRouteFrom('ADMIN');
-					}]
-				})
-				.state('guestInstitutions', {
-					url: '/guestInstitutions',
-					templateUrl: '/templates/guestInstitutions.html',
-					controller: 'guestInstitutionsCtrl',
-					onEnter: ['$state', 'auth', function($state, auth){
-						if (!auth.isLoggedIn()){							
-							$state.go('login');							
-						}
-						// Do not allow user to enter state if role is ADMIN
-						auth.secureRouteFrom('ADMIN');
-					}]
-				})*/
-
 			$urlRouterProvider.otherwise('login');
 
 	}])
@@ -180,11 +143,27 @@
 				'settings',
 				'ipPools'
 			];
+			var adminAppStates = [
+				'addInst',
+				'updateInst',
+                'showAllNotifications',
+                'viewUsers',
+                'createUser',
+                'settings',
+                'ipPools'
+			];
+
 			// If accessing one of the securedAppStates and user is not logged in
 			if (($.inArray(toState.name, securedAppStates) !== -1) && !auth.isLoggedIn()) {
 				event.preventDefault();
 				$state.go('login');
 			}
+
+            // If accessing one of the securedAppStates and user is not logged in
+            if (($.inArray(toState.name, adminAppStates) !== -1) && auth.currentUserRole() === 'GUEST') {
+                event.preventDefault();
+                $state.go('home');
+            }
 
 		    if ((toState.name === 'login' || toState.name === 'register') && auth.isLoggedIn()) {		    
 		        event.preventDefault();

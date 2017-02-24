@@ -5,13 +5,14 @@ angular.module('linkups2')
 	'instData', 
 	'ModalService',
 	'utilityService',
-	'$filter',
 	'DTOptionsBuilder',
 	'$rootScope',	
 	'settingsService',
 	'NAVBAR_TEMPLATE_URL',
-	function($scope, instData, ModalService, utilityService, $filter, DTOptionsBuilder, $rootScope, settingsService, NAVBAR_TEMPLATE_URL) {
-		
+	'auth',
+	function($scope, instData, ModalService, utilityService, DTOptionsBuilder, $rootScope, settingsService, NAVBAR_TEMPLATE_URL, auth) {
+
+		$scope.currentUserRole = auth.currentUserRole();
 		$scope.navbar = {
 			url: NAVBAR_TEMPLATE_URL
 		};

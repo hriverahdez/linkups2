@@ -72,8 +72,11 @@ angular.module('linkups2')
 
 			return payload.role;
 		}
-		
-	};
+		else {
+            return 'NOT_LOGGED';
+        }
+
+    };
 
 	auth.getCurrentUserHome = function() {
 		if (auth.currentUserRole() == 'ADMIN')

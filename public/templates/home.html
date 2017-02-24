@@ -4,7 +4,7 @@
     <div ng-include="'/templates/navigationBadges.html'">
     <!-- Including bagdes -->
     </div>
-
+    <div class="empty-space-small" ng-if="currentUserRole==='GUEST'"></div>
     <!-- DATA TABLES -->
     <div class="row">
         <div class="col-lg-12">
@@ -24,7 +24,7 @@
                                     <th>WAN</th>
                                     <th>LAN</th>
                                     <th>Bandwidth</th>                                
-                                    <th ng-if="role!='GUEST'">Acciones</th>
+                                    <th ng-if="currentUserRole=='ADMIN'">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>                                                                             
@@ -38,7 +38,7 @@
                                     <td>{{inst.wan}}</td>
                                     <td>{{inst.lan}}</td>
                                     <td>{{inst.bandwidth}}</td>
-                                    <td ng-if="role!='GUEST'">
+                                    <td ng-if="currentUserRole==='ADMIN'">
                                         <a href="/#/updateInst/{{inst._id}}">
                                             <i class="fa fa-edit"></i>
                                         </a> | 
