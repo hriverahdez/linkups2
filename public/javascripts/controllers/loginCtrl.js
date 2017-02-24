@@ -6,7 +6,11 @@ angular.module('linkups2')
 		'auth',
 		'$rootScope',
 		'settingsService',
-		function($scope, $state, auth, $rootScope, settingsService){
+		'NAVBAR_TEMPLATE_URL',
+		function($scope, $state, auth, $rootScope, settingsService, NAVBAR_TEMPLATE_URL){
+	        $scope.navbar = {
+	            url: NAVBAR_TEMPLATE_URL
+            };
 			$scope.user = {};
 			$scope.error;
 			$scope.userIsAvailable = false;

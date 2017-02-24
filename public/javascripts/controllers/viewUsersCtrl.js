@@ -38,14 +38,9 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 			    
 			}).then(function(modal) {
             	modal.element.modal();
-            	
             	//modal.close();
             });
-
 	    };
-
-	        
-		
 	}
 ])
 .controller('confirmDeleteUserModalCtrl', [

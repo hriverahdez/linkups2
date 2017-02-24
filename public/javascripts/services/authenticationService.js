@@ -102,7 +102,7 @@ angular.module('linkups2')
 				username: user.username,
 				fullname: user.fullname, 
 				password: user.password,
-				role: 	  'ADMIN',
+				role: 	  'GUEST',
 			}
 		}).success(function (user) {
 			auth.saveToken(user.token);
@@ -119,7 +119,7 @@ angular.module('linkups2')
 				username: user.username,
 				fullname: user.fullname, 
 				password: user.password,
-				role: 	  'ADMIN'
+				role: 	  user.role,
 			}
 		}).success(function (user) {
 			
