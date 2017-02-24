@@ -7,7 +7,7 @@
 6 silly lifecycle linkups2@0.0.0~prestart: no script for prestart, continuing
 7 info lifecycle linkups2@0.0.0~start: linkups2@0.0.0
 8 verbose lifecycle linkups2@0.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle linkups2@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/media/hrivera/My Stuff/WORK/MEAN/linkups2/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+9 verbose lifecycle linkups2@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/media/hrivera/My Stuff/WORK/MEAN/linkups2/node_modules/.bin:/home/hrivera/.composer/vendor/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:~/.composer/vendor/bin
 10 verbose lifecycle linkups2@0.0.0~start: CWD: /media/hrivera/My Stuff/WORK/MEAN/linkups2
 11 silly lifecycle linkups2@0.0.0~start: Args: [ '-c', 'node ./bin/www' ]
 12 silly lifecycle linkups2@0.0.0~start: Returned: code: 1  signal: null

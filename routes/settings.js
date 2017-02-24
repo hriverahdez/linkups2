@@ -47,36 +47,6 @@ router.post('/', function(req, res, next) {
 
 });
 
-/* POST - Creating one */
-router.post('/initialize', function(req, res, next) {	
-	
-	Setting.findOne({}, function (err, setting){
-		if(err){ 
-			res.status(404).json(err);
-			return; 
-		}
-		if (!setting) { 
-			//res.status(404).json({message: 'Can\'t find Setting'});
-			var setting = new Setting(req.body);
-			setting.save(function(err, setting){ 
-				if (err) {
-					console.log('There was an error saving to the database: ' + err);
-					res.status(404).json(err);
-					return;
-				}
-				res.status(201).json(setting);
-			})
-		}	
-		else {
-			res.json({message: "Settings have been initialized already"});
-			return;
-		}		
-		
-	});	
-
-});
-
-
 /* GET - Reading one */
 router.get('/:id', function(req, res) {
 	

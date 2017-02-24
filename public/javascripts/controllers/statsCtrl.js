@@ -5,8 +5,9 @@ angular.module('linkups2').controller('statsCtrl', [
 	'settingsService',
 	'utilityService',
 	'NAVBAR_TEMPLATE_URL',
-	function($scope, instData, $filter, settingsService, utilityService, NAVBAR_TEMPLATE_URL) {
-
+	'auth',
+	function($scope, instData, $filter, settingsService, utilityService, NAVBAR_TEMPLATE_URL, auth) {
+		$scope.currentUserRole = auth.currentUserRole();
 		$scope.navbar = {
 			url: NAVBAR_TEMPLATE_URL
 		};

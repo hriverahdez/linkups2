@@ -99,36 +99,9 @@
 	}])
 
 	.run(function ($rootScope, $state, auth, settingsService, $location) {
-
-		// INITITALIZING APP //
-		$rootScope.initialConfig = function() {
-			
-			//CREATING DEFAULT USER
-			var admin = {
-				username: 	'admin',
-				password: 	'admin',
-				fullname: 	'DEFAULT USER',
-				role: 		'ADMIN'
-			}
-			auth.checkUserAvailability(admin).then(function(response){
-				if (response.data.available) {
-					auth.createUser(admin);
-				}
-			});	
-
-			//CREATING DEFAULT SETTINGS			
-			settingsService.initialSettings();
-			settingsService.getSettings().then(function(settings){
-				$rootScope.provinceName = settings.data[0].provinceName;	
-			});
-		};
-
-		$rootScope.initialConfig();
-		/////////////////////////////////////////
-
 		// TOGGLE OFF THE LOADING OVERLAY
 		$rootScope.loadingOperation = false;
-
+		
 		$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
 			var securedAppStates = [

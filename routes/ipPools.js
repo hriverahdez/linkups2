@@ -33,8 +33,8 @@ router.get('/getAvailable', function(req, res, next) {
 router.post('/', auth, function(req, res, next) {	
 
 
-	if (req.body.length > 0) {		
-
+	if (req.body.length > 0) {
+		//Bulk insert
 		var data = Array.prototype.slice.call(req.body);
 
 		IpPool.insertMany(data)

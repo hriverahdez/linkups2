@@ -6,7 +6,8 @@ angular.module('linkups2').controller('viewUsersCtrl', [
 	'$state',
 	'NAVBAR_TEMPLATE_URL',
 	function($scope, auth, ModalService, $element, $state, NAVBAR_TEMPLATE_URL){
-		
+
+        $scope.currentUserRole = auth.currentUserRole();
 		$scope.navbar = {
 			url: NAVBAR_TEMPLATE_URL
 		};

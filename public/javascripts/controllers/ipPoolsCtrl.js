@@ -6,8 +6,10 @@ angular.module('linkups2').controller('ipPoolsCtrl', [
 	'ModalService',
 	'utilityService',
 	'NAVBAR_TEMPLATE_URL',
-	function($scope, ipMgmtService, settingsService, $state, ModalService, utilityService, NAVBAR_TEMPLATE_URL) {
+	'auth',
+	function($scope, ipMgmtService, settingsService, $state, ModalService, utilityService, NAVBAR_TEMPLATE_URL, auth) {
 
+		$scope.currentUserRole = auth.currentUserRole();
 		$scope.navbar = {
 			url: NAVBAR_TEMPLATE_URL
 		};

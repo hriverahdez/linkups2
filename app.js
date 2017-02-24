@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var db = require('./config/db');
-require('./config/jwtSecret');
+require('./config/_env_config');
 
 /* DB connection config */
 var mongoose = require('mongoose');
@@ -24,6 +24,10 @@ require('./models/Settings');
 
 /* requiring passport */
 require('./config/passport');
+var initialize = require('./utils/initialization');
+initialize.initSettings();
+initialize.initUser();
+initialize.runUpdate();
 
 /*  route declaration */
 var index         = require('./routes/index');

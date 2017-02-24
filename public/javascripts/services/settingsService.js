@@ -5,7 +5,6 @@ angular.module('linkups2').factory('settingsService', function ($resource, auth,
         'Content-type' : 'application/x-www-form-urlencoded',
     };
 
-
     var transformRequestFn = function(data, headersGetter) {
         var str = [];
         for(var d in data)
@@ -44,18 +43,6 @@ angular.module('linkups2').factory('settingsService', function ($resource, auth,
 			
 		});
     };
-
-    settingsService.initialSettings = function(){
-    	return $http({
-			method: 'POST',
-			url: base_url + '/initialize',
-			headers: headers,
-			transformRequest: transformRequestFn,			
-		}).success(function (user) {
-			
-		});
-    }
-
 	return settingsService;
 
 });

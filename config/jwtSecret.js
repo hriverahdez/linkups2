@@ -1,1 +1,0 @@
-process.env.secret = '!l3g0l4s';

@@ -8,6 +8,7 @@ angular.module('linkups2').controller('notificationCtrl', [
 	'NAVBAR_TEMPLATE_URL',
 	function($scope, auth,notificationService, $timeout, utilityService, DTOptionsBuilder, NAVBAR_TEMPLATE_URL){
 
+		$scope.currentUserRole = auth.currentUserRole();
 		$scope.navbar = {
 			url: NAVBAR_TEMPLATE_URL
 		}
